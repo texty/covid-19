@@ -37,9 +37,9 @@ filtered = data %>%
   filter(Country.Region %in% target_countries)
   
 # сірими лініями поки всі країни без фільтру по цікавим
-ggplot(filtered, aes(y = total, x = counter, colour = "red")) + 
+ggplot(filtered, aes(y = total, x = counter)) + 
   geom_line(data = transform(data, Country.Region = NULL), mapping = aes(group = place), colour = "#696969", size=0.2)+
-  geom_line(aes(group = Country.Region), size=1)+
+  geom_line(aes(group = Country.Region), size=1, colour = "#cf1e25")+
   scale_size_manual(values = c(0.2, 1))+
   facet_wrap(~ Country.Region) +
   scale_y_continuous(trans='log10')+
