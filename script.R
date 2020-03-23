@@ -54,10 +54,12 @@ ggplot(filtered, aes(y = cases, x = counter)) +
   scale_size_manual(values = c(0.2, 1))+
   facet_wrap(~ Country.Region) +
   scale_y_continuous(trans='log10')+
-  labs(title = paste("COVID-19. Станом на", format(end_date, "%d-%b-%Y")),
-       subtitle = "Кількість випадків по днях, починаючи з 100 пацієнта",
+  labs(title = paste("COVID-19. Кількість випадків по днях, починаючи з першої смерті.", format(end_date, '%d-%m-%Y')),
+       subtitle = 
+      "В Австрії, Німеччині, Данії, Бельгії та ін. країнах перша смерть сталась, коли вже було виявлено понад 500 випадків, \nзокрема завдяки масовому тестуванню. Зараз лінія України найбільше схожа з лініями Франції та Італії.",
        caption = "Дані: https://github.com/CSSEGISandData/COVID-19/", 
-       x = "", y = "") +
+       x = "", 
+       y = "") +
   theme_minimal() +
   theme(legend.position="none",
         panel.grid.minor = element_blank(),
