@@ -34,17 +34,16 @@ data = merge(cases, deaths,  by=c("date", "Country.Region")) %>%
   mutate(place = Country.Region)
 
 # перелік країн, які цікаві
-target_countries = c("Austria", "Belgium", "Poland", "United Kingdom", 
-                     "Belgium", "Croatia", "Czechia", "Denmark", "France", 
-                     "Germany", "Greece", "Italy", "Spain", "Romania", 
-                     "Sweden", "Switzerland", "US", "Netherlands", "Israel", 
-                     "Russia", "Ukraine")
+target_countries = c("Ukraine", "China", "Austria", "Canada", "Belgium", "Poland", "United Kingdom", 
+                     "Belgium", "Croatia", "Denmark", "France", "Germany", "Greece", "Italy", 
+                     "Spain", "Sweden", "Switzerland", "US", "Netherlands", "Israel", 
+                     "Russia")
 
 end_date = max(data$date)
 
 filtered = data %>%  
   filter(Country.Region %in% target_countries)
-  
+
 options(scipen=10000)
 
 # сірими лініями поки всі країни без фільтру по цікавим
@@ -52,11 +51,10 @@ ggplot(filtered, aes(y = cases, x = counter)) +
   geom_line(data = transform(filtered, Country.Region = NULL), mapping = aes(group = place), colour = "#696969", size=0.2)+
   geom_line(aes(group = Country.Region), size=1, colour = "#cf1e25")+
   scale_size_manual(values = c(0.2, 1))+
-  facet_wrap(~ Country.Region) +
+  facet_wrap(.~Country.Region) +
   scale_y_continuous(trans='log10')+
   labs(title = paste("COVID-19. Кількість випадків по днях, починаючи з першої смерті.", format(end_date, '%d-%m-%Y')),
-       subtitle = 
-      "В Австрії, Німеччині, Данії, Бельгії та ін. країнах перша смерть сталась, коли вже було виявлено понад 500 випадків, \nзокрема завдяки масовому тестуванню. Зараз лінія України найбільше схожа з лініями Франції та Італії.",
+       subtitle = "Зверніть увагу, графік для України значно нижче за всі інші країни, через те, що перша смерть була зафіксована, \nколи хворих було визначено дуже мало. Ймовірно, це пов'язано з відсутністю тестування. Можна припустити, \nщо на момент першої смерті в Україні хворих було значно більше",
        caption = "Дані: https://github.com/CSSEGISandData/COVID-19/", 
        x = "", 
        y = "") +
