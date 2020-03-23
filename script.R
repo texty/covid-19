@@ -7,6 +7,7 @@ Sys.setlocale("LC_TIME", "Ukrainian")
 
 original_cases = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv")  
 original_deaths = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv") 
+
 setwd("/home/yevheniia/R/2020/covid-19")
 countries_translated = read.csv("countries_translated.csv")
 
@@ -35,20 +36,14 @@ data = merge(cases, deaths,  by=c("date", "Country.Region")) %>%
   mutate(counter=row_number()) %>% 
   mutate(place = Country.Region)
 
+end_date = max(data$date)
+
 # перелік країн, які цікаві
 target_countries = c("Ukraine", "Austria", "Bulgaria", "Canada", "China", "France", "Germany", 
                      "Iran", "Israel", "Italy", "Korea, South", "Turkey", "Moldova", "Poland", 
                      "Portugal", "Russia", "Spain", "Sweden", "United Kingdom", "US")
 
-end_date = max(data$date)
-
-countries = data %>% 
-  filter(date == end_date)  %>% 
-  select(2,3)
-
-filtered = data %>%  
-  filter(Country.Region %in% target_countries) 
-
+filtered = data %>% filter(Country.Region %in% target_countries) 
 filtered = left_join(filtered, countries_translated, by="Country.Region")
 
 options(scipen=10000)
