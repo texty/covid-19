@@ -6,7 +6,7 @@ const target_countries = ["Ukraine", "Austria", "Bulgaria", "Canada", "China", "
     "Portugal", "Slovenia", "Spain", "Sweden", "United Kingdom", "US"];
 
 const translated_countries = ["Україна", "Австрія", "Болгарія", "Канада", "Китай", "Франція", "Німеччина",
-    "Іран", "Ізраїль", "Італія", "Південна Корея", "Туреччина", "Молдова", "Польша", "Португалія",
+    "Іран", "Ізраїль", "Італія", "Південна Корея", "Туреччина", "Молдова", "Польща", "Португалія",
     "Словенія", "Іспанія", "Швеція", "Великобританія", "США"];
 
 var formatTime = d3.timeFormat("%d-%m-%Y");
@@ -14,10 +14,8 @@ d3.select("#today").html(formatTime(new Date));
 
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
-    d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"),
-    d3.csv("data/countries_translated.csv")
+    d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
 ]).then(function(files) {
-    console.log(files[2]);
 
     const reshape = function(df, value_col_title){
         var filtered = df.filter(function(d) { return target_countries.includes(d["Country/Region"]) });
@@ -84,8 +82,6 @@ Promise.all([
 
     var mydata = leftJoin(cases, deaths, "country", "country", "deaths")
         .filter(function(d){ return d.deaths > 0  });
-
-    console.log(mydata);
 
     // append index to the each next day after first death
     var country = "";
