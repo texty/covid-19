@@ -3,31 +3,6 @@
 @import "footer";
 @import "donate";
 
-@font-face {
-  font-family: 'ProximaNova';
-  src: url('../font/proxima_regular/proxima-nova-regular.eot');
-  src: url('../font/proxima_regular/proxima-nova-regular.eot?#iefix') format('embedded-opentype'),
-  url('../font/proxima_regular/proxima-nova-regular.woff2') format('woff2'),
-  url('../font/proxima_regular/proxima-nova-regular.woff') format('woff'),
-  url('../font/proxima_regular/proxima-nova-regular.ttf') format('truetype'),
-  url('../font/proxima_regular/proxima-nova-regular.svg#youworkforthem') format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'ProximaNova';
-  src: url('../font/proxima_bold/proxima-nova-bold.eot');
-  src: url('../font/proxima_bold/proxima-nova-bold.eot?#iefix') format('embedded-opentype'),
-  url('../font/proxima_bold/proxima-nova-bold.woff2') format('woff2'),
-  url('../font/proxima_bold/proxima-nova-bold.woff') format('woff'),
-  url('../font/proxima_bold/proxima-nova-bold.ttf') format('truetype'),
-  url('../font/proxima_bold/proxima-nova-bold.svg#youworkforthem') format('svg');
-  font-weight: 600;
-  font-style: normal;
-}
-
-
 body {
   margin: 0;
   font-family: 'ProximaNova', sans-serif;
@@ -52,6 +27,13 @@ i {
 }
 
 
+h3 {
+  font-size: 25px;
+}
+
+p {
+  font-size: 20px;
+}
 
 
 main {
@@ -96,16 +78,6 @@ main {
     margin: 10px auto;
   }
 }
-
-h3 {
-    font-size: 25px;
-  }
-
-p {
-    font-size: 20px;
-  }
-
-
 
 
 #chart {

@@ -1,4 +1,28 @@
 @charset "UTF-8";
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_regular/proxima-nova-regular.eot");
+  src: url("../font/proxima_regular/proxima-nova-regular.eot?#iefix") format("embedded-opentype"), url("../font/proxima_regular/proxima-nova-regular.woff2") format("woff2"), url("../font/proxima_regular/proxima-nova-regular.woff") format("woff"), url("../font/proxima_regular/proxima-nova-regular.ttf") format("truetype"), url("../font/proxima_regular/proxima-nova-regular.svg#youworkforthem") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_bold/proxima-nova-bold.eot");
+  src: url("../font/proxima_bold/proxima-nova-bold.eot?#iefix") format("embedded-opentype"), url("../font/proxima_bold/proxima-nova-bold.woff2") format("woff2"), url("../font/proxima_bold/proxima-nova-bold.woff") format("woff"), url("../font/proxima_bold/proxima-nova-bold.ttf") format("truetype"), url("../font/proxima_bold/proxima-nova-bold.svg#youworkforthem") format("svg");
+  font-weight: 600;
+  font-style: normal; }
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_regular/proxima-nova-regular.eot");
+  src: url("../font/proxima_regular/proxima-nova-regular.eot?#iefix") format("embedded-opentype"), url("../font/proxima_regular/proxima-nova-regular.woff2") format("woff2"), url("../font/proxima_regular/proxima-nova-regular.woff") format("woff"), url("../font/proxima_regular/proxima-nova-regular.ttf") format("truetype"), url("../font/proxima_regular/proxima-nova-regular.svg#youworkforthem") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_bold/proxima-nova-bold.eot");
+  src: url("../font/proxima_bold/proxima-nova-bold.eot?#iefix") format("embedded-opentype"), url("../font/proxima_bold/proxima-nova-bold.woff2") format("woff2"), url("../font/proxima_bold/proxima-nova-bold.woff") format("woff"), url("../font/proxima_bold/proxima-nova-bold.ttf") format("truetype"), url("../font/proxima_bold/proxima-nova-bold.svg#youworkforthem") format("svg");
+  font-weight: 600;
+  font-style: normal; }
 header {
   min-height: 2em;
   width: 100%;
@@ -52,6 +76,18 @@ header {
       max-height: 20px;
       object-fit: contain; }
 
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_regular/proxima-nova-regular.eot");
+  src: url("../font/proxima_regular/proxima-nova-regular.eot?#iefix") format("embedded-opentype"), url("../font/proxima_regular/proxima-nova-regular.woff2") format("woff2"), url("../font/proxima_regular/proxima-nova-regular.woff") format("woff"), url("../font/proxima_regular/proxima-nova-regular.ttf") format("truetype"), url("../font/proxima_regular/proxima-nova-regular.svg#youworkforthem") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_bold/proxima-nova-bold.eot");
+  src: url("../font/proxima_bold/proxima-nova-bold.eot?#iefix") format("embedded-opentype"), url("../font/proxima_bold/proxima-nova-bold.woff2") format("woff2"), url("../font/proxima_bold/proxima-nova-bold.woff") format("woff"), url("../font/proxima_bold/proxima-nova-bold.ttf") format("truetype"), url("../font/proxima_bold/proxima-nova-bold.svg#youworkforthem") format("svg");
+  font-weight: 600;
+  font-style: normal; }
 footer {
   background-color: #333;
   color: white;
@@ -118,6 +154,18 @@ footer {
     width: 30px;
     margin-right: 10px; }
 
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_regular/proxima-nova-regular.eot");
+  src: url("../font/proxima_regular/proxima-nova-regular.eot?#iefix") format("embedded-opentype"), url("../font/proxima_regular/proxima-nova-regular.woff2") format("woff2"), url("../font/proxima_regular/proxima-nova-regular.woff") format("woff"), url("../font/proxima_regular/proxima-nova-regular.ttf") format("truetype"), url("../font/proxima_regular/proxima-nova-regular.svg#youworkforthem") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_bold/proxima-nova-bold.eot");
+  src: url("../font/proxima_bold/proxima-nova-bold.eot?#iefix") format("embedded-opentype"), url("../font/proxima_bold/proxima-nova-bold.woff2") format("woff2"), url("../font/proxima_bold/proxima-nova-bold.woff") format("woff"), url("../font/proxima_bold/proxima-nova-bold.ttf") format("truetype"), url("../font/proxima_bold/proxima-nova-bold.svg#youworkforthem") format("svg");
+  font-weight: 600;
+  font-style: normal; }
 .donate-us {
   margin: 80px auto 30px auto; }
   .donate-us hr {
@@ -142,18 +190,6 @@ footer {
     color: #ed6746;
     border-bottom: 0; }
 
-@font-face {
-  font-family: 'ProximaNova';
-  src: url("../font/proxima_regular/proxima-nova-regular.eot");
-  src: url("../font/proxima_regular/proxima-nova-regular.eot?#iefix") format("embedded-opentype"), url("../font/proxima_regular/proxima-nova-regular.woff2") format("woff2"), url("../font/proxima_regular/proxima-nova-regular.woff") format("woff"), url("../font/proxima_regular/proxima-nova-regular.ttf") format("truetype"), url("../font/proxima_regular/proxima-nova-regular.svg#youworkforthem") format("svg");
-  font-weight: 400;
-  font-style: normal; }
-@font-face {
-  font-family: 'ProximaNova';
-  src: url("../font/proxima_bold/proxima-nova-bold.eot");
-  src: url("../font/proxima_bold/proxima-nova-bold.eot?#iefix") format("embedded-opentype"), url("../font/proxima_bold/proxima-nova-bold.woff2") format("woff2"), url("../font/proxima_bold/proxima-nova-bold.woff") format("woff"), url("../font/proxima_bold/proxima-nova-bold.ttf") format("truetype"), url("../font/proxima_bold/proxima-nova-bold.svg#youworkforthem") format("svg");
-  font-weight: 600;
-  font-style: normal; }
 body {
   margin: 0;
   font-family: 'ProximaNova', sans-serif; }
@@ -171,6 +207,12 @@ i {
   position: fixed;
   top: 5px;
   right: 25px; }
+
+h3 {
+  font-size: 25px; }
+
+p {
+  font-size: 20px; }
 
 main {
   max-width: 1300px;
@@ -205,12 +247,6 @@ main {
     width: 90%;
     line-height: 1.6;
     margin: 10px auto; }
-
-h3 {
-  font-size: 25px; }
-
-p {
-  font-size: 20px; }
 
 #chart {
   display: flex;

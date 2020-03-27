@@ -36,10 +36,11 @@ Promise.all([
         }
     });
 
-    var width, columns;
+    var width;
+    var columns;
 
     const set_size = function(){
-        width = document.getElementById("chart_wrapper").getBoundingClientRect().width;
+        width = d3.select("#chart_wrapper").node().getBoundingClientRect().width;
         columns = Math.floor(width/250);
         if(width > 800) {
             d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3").style("width", columns * 250 + "px");
@@ -51,6 +52,7 @@ Promise.all([
     
     set_size();
     d3.select(window).on("resize", set_size);
+
 
     const yScale = d3.scaleSymlog()
         .domain([0, 100000])
@@ -69,9 +71,7 @@ Promise.all([
         .entries(mydata);
 
     const height = nested.length / columns * 250;
-
     const chart_container = d3.select("#chart");
-    
     const multiple = chart_container.selectAll("svg")
             .data(nested)
             .enter()
