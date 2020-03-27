@@ -7,7 +7,9 @@ const translated_countries = ["Україна", "Австрія", "Болгар�
     "Словенія", "Іспанія", "Швеція", "Великобританія", "США"];
 
 var formatTime = d3.timeFormat("%d-%m-%Y");
-d3.select("#today").html(formatTime(new Date));
+var yesterday = new Date(new Date().setDate(new Date().getDate()-1));
+
+d3.select("#today").html(formatTime(yesterday));
 
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
