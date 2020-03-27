@@ -86,12 +86,18 @@ Promise.all([
     multiple.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + 150 + ")")
-        .call(d3.axisBottom(xScale).tickValues([10, 20, 30, 40, 50, 60])); 
+        .call(d3.axisBottom(xScale)
+            .tickValues([10, 20, 30, 40, 50, 60])
+        ); 
 
 
     multiple.append("g")
         .attr("class", "y axis")
-        .call(d3.axisLeft(yScale).ticks(5).tickValues([0, 10, 100, 1000, 10000, 100000]));
+        .call(d3.axisLeft(yScale)
+            .ticks(5)
+            .tickValues([0, 10, 100, 1000, 10000, 100000])
+            .tickSize(-150)
+        );
 
 
     multiple.append("text")

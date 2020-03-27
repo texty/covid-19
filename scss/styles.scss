@@ -85,6 +85,18 @@ main {
   flex-wrap: wrap;
   margin: auto;
 
+  .y.axis > path.domain {
+    display: none;
+  }
+
+  .x.axis > path.domain {
+    stroke: lightgrey;
+  }
+
+  g.tick line {
+    stroke: lightgrey;
+  }
+
   svg text {
     font-family: 'ProximaNova', sans-serif;
     font-weight: 300;
