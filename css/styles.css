@@ -1,10 +1,50 @@
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_regular/proxima-nova-regular.eot");
+  src: url("../font/proxima_regular/proxima-nova-regular.eot?#iefix") format("embedded-opentype"), url("../font/proxima_regular/proxima-nova-regular.woff2") format("woff2"), url("../font/proxima_regular/proxima-nova-regular.woff") format("woff"), url("../font/proxima_regular/proxima-nova-regular.ttf") format("truetype"), url("../font/proxima_regular/proxima-nova-regular.svg#youworkforthem") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'ProximaNova';
+  src: url("../font/proxima_bold/proxima-nova-bold.eot");
+  src: url("../font/proxima_bold/proxima-nova-bold.eot?#iefix") format("embedded-opentype"), url("../font/proxima_bold/proxima-nova-bold.woff2") format("woff2"), url("../font/proxima_bold/proxima-nova-bold.woff") format("woff"), url("../font/proxima_bold/proxima-nova-bold.ttf") format("truetype"), url("../font/proxima_bold/proxima-nova-bold.svg#youworkforthem") format("svg");
+  font-weight: 600;
+  font-style: normal; }
+body {
+  font-family: 'ProximaNova', sans-serif; }
+
+header {
+  display: flex;
+  justify-content: space-between; }
+  header #left-side {
+    width: 70%;
+    display: flex;
+    justify-content: space-between; }
+    header #left-side .texty-logo img {
+      width: 180px; }
+  header a {
+    text-decoration: none;
+    color: #333;
+    text-transform: uppercase; }
+  header i {
+    font-size: 35px;
+    color: #333;
+    margin: 0 0 0 5px;
+    max-height: 1em;
+    transition: all 0.5s; }
+    header i:hover {
+      color: #9796f0; }
+  header .soc {
+    position: fixed;
+    top: 5px;
+    right: 5px; }
+
 main {
   display: grid;
   grid-template-columns: 17fr 38fr 19fr;
   width: 100%;
   max-width: 1500px;
   margin: auto;
-  font-family: 'Roboto', sans-serif;
   color: #333; }
   @media (max-width: 400px) {
     main {
@@ -13,7 +53,6 @@ main {
 
 h1 {
   grid-column: 2 / 3;
-  max-width: 658px;
   font-size: 4.5vw; }
   @media (max-width: 400px) {
     h1 {
@@ -44,7 +83,7 @@ p {
   margin: auto; }
 
 svg text {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'ProximaNova', sans-serif;
   font-weight: 300; }
 
 .axis text {
