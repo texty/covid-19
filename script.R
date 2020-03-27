@@ -5,8 +5,8 @@ library(ggplot2)
 
 Sys.setlocale("LC_TIME", "Ukrainian")
 
-original_cases = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv")  
-original_deaths = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv") 
+original_cases = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")  
+original_deaths = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv") 
 
 setwd("/home/yevheniia/R/2020/covid-19")
 countries_translated = read.csv("countries_translated.csv")
@@ -41,7 +41,7 @@ end_date = max(data$date)
 # перелік країн, які цікаві
 target_countries = c("Ukraine", "Austria", "Bulgaria", "Canada", "China", "France", "Germany", 
                      "Iran", "Israel", "Italy", "Korea, South", "Turkey", "Moldova", "Poland", 
-                     "Portugal", "Russia", "Spain", "Sweden", "United Kingdom", "US")
+                     "Portugal", "Slovenia", "Spain", "Sweden", "United Kingdom", "US")
 
 filtered = data %>% filter(Country.Region %in% target_countries) 
 filtered = left_join(filtered, countries_translated, by="Country.Region")
@@ -56,7 +56,7 @@ ggplot(filtered, aes(y = cases, x = counter)) +
   facet_wrap(.~country_uk) +
   scale_y_continuous(trans='log10')+
   labs(title = paste("COVID-19. Кількість захворювань по днях, починаючи з першої смерті.", format(end_date, '%d-%m-%Y')),
-       subtitle = "Зверніть увагу, графік для України значно нижче за інші країни, через те, що перша смерть була зафіксована, \nколи хворих було визначено дуже мало. Ймовірно, це пов'язано з відсутністю тестування. Можна припустити, \nщо на момент першої смерті в Україні хворих було значно більше",
+       subtitle = "Зверніть увагу: графік для України сягає значно нижче за графіки інших країн. Це пов’язано з тим, що першу \nсмерть зафіксували, коли було визначено ще дуже мало хворих. Ймовірно, це наслідок відсутності тестування. \nМожна припустити, що на час першої смерті хворих в Україні було значно більше",
        caption = "Дані: https://github.com/CSSEGISandData/COVID-19/", 
        x = "", 
        y = "") +
