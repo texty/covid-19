@@ -1,3 +1,7 @@
+@import "header";
+@import "footer";
+@import "donate";
+
 @font-face {
   font-family: 'ProximaNova';
   src: url('../font/proxima_regular/proxima-nova-regular.eot');
@@ -24,115 +28,97 @@
 
 
 body {
+  margin: 0;
   font-family: 'ProximaNova', sans-serif;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
+i {
+  font-size:35px;
+  color: #333;
+  margin: 0 0 0 5px;
+  max-height: 1em;
+  transition: all 0.5s;
 
-  #left-side {
-    width: 70%;
-    display: flex;
-    justify-content: space-between;
-
-    .texty-logo {
-      img {
-        width: 180px;
-      }
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: #333;
-    text-transform: uppercase;
-  }
-
-  i {
-    font-size:35px;
-    color: #333;
-    margin: 0 0 0 5px;
-    max-height: 1em;
-    transition: all 0.5s;
-
-    &:hover {
-      color: #9796f0;
-    }
-  }
-
-  .soc {
-    position: fixed;
-    top:5px;
-    right:5px;
+  &:hover {
+    color: #ed6746;
   }
 }
+
+.soc {
+  position: fixed;
+  top: 5px;
+  right: 25px;
+}
+
 
 
 
 main {
-  display: grid;
-  grid-template-columns: 17fr 38fr 19fr;
-  width: 100%;
-  max-width: 1500px;
+  max-width: 1300px;
+  width: 90%;
   margin: auto;
-
   color: #333;
   @media(max-width: 400px){
     display: block;
     width: 95%;
   }
-}
 
-h1 {
-  grid-column: 2 / 3;
-  font-size: 4.5vw;
-  @media(max-width: 400px){
-    font-size: 40px;
+  h1 {
+    width: 60%;
+    margin: 50px auto 20px auto;
+    font-size: calc(30px + 3vw);
+    @media(max-width: 800px){
+      width: 90%;
+      margin: 50px 0 20px 0;
+    }
   }
-}
 
-p, h3 {
-  grid-column: 2/3;
-  line-height: 1.6;
-  margin: 10px auto;
+  p:not(.donate-p), h3 {
+    width: 60%;
+    line-height: 1.6;
+    margin: 10px auto;
+    @media(max-width: 800px){
+      width: 100%;
+      margin: 10px 0;
+    }
+  }
+
 }
 
 #chart_wrapper {
   grid-column: 1/-1;
-  //width: calc((100%/250) * 250);
   margin: 80px auto;
-  @media(max-width: 812px){
-    //width: 100%;
+
+  p, h3 {
+    width: 90%;
+    line-height: 1.6;
+    margin: 10px auto;
   }
 }
 
-#chart_wrapper p, #chart_wrapper h3 {
-  line-height: 1.6;
-  margin: 10px auto 0 0;
-}
-
 h3 {
-  font-size: 25px;
-}
+    font-size: 25px;
+  }
 
 p {
-  font-size: 20px;
-}
+    font-size: 20px;
+  }
+
+
+
 
 #chart {
   display: flex;
   flex-wrap: wrap;
-  //grid-template-columns: repeat(auto-fit, 250px);
   margin: auto;
-}
 
-svg text {
-  font-family: 'ProximaNova', sans-serif;
-  font-weight: 300;
+  svg text {
+    font-family: 'ProximaNova', sans-serif;
+    font-weight: 300;
+  }
 
-}
+  .axis text {
+    fill: grey;
+  }
 
-.axis text {
-  fill: grey;
 }

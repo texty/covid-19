@@ -1,6 +1,3 @@
-/**
- * Created by yevheniia on 27.03.20.
- */
 const target_countries = ["Ukraine", "Austria", "Bulgaria", "Canada", "China", "France", "Germany",
     "Iran", "Israel", "Italy", "Korea, South", "Turkey", "Moldova", "Poland",
     "Portugal", "Slovenia", "Spain", "Sweden", "United Kingdom", "US"];
@@ -11,6 +8,7 @@ const translated_countries = ["Україна", "Австрія", "Болгар�
 
 var formatTime = d3.timeFormat("%d-%m-%Y");
 d3.select("#today").html(formatTime(new Date));
+
 
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
@@ -49,9 +47,6 @@ Promise.all([
 
     var cases = reshape(files[0], "cases");
     var deaths = reshape(files[1], "deaths");
-
-
-
 
     /* merge */
     function leftJoin(left, right, left_id, right_id, col_to_join) {
@@ -100,17 +95,26 @@ Promise.all([
     });
 
 
-    const width = window.innerWidth * 0.9;
+    const width = document.getElementById("chart_wrapper").getBoundingClientRect().width;
     const columns = Math.floor(width/250);
-    d3.select("#chart_wrapper").style("width", columns * 250 + "px");
-    console.log(columns);
+    if(width > 800) {
+        d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3").style("width", columns * 250 + "px");
+    } else {
+        d3.selectAll("#chart").style("width", columns * 250 + "px");
+        d3.selectAll("#chart_wrapper p, #chart_wrapper h3").style("width", "100%");
+    }
+
 
     d3.select(window).on("resize", function(){
-        const width = window.innerWidth * 0.9;
-        const columns = Math.floor(width/250);
-        d3.select("#chart_wrapper").style("width", columns * 250 + "px");
+        const width = document.getElementById("chart_wrapper").getBoundingClientRect().width;
+        const columns = Math.floor(width / 250);
+        if(width > 800) {
+            d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3").style("width", columns * 250 + "px");
+        } else {
+            d3.selectAll("#chart").style("width", columns * 250 + "px");
+            d3.selectAll("#chart_wrapper p, #chart_wrapper h3").style("width", "100%");
+        }
     });
-
 
     const yScale = d3.scaleSymlog()
         .domain([0, 100000])
@@ -118,12 +122,11 @@ Promise.all([
 
     var xScale = d3.scaleLinear()
         .domain([0, d3.max(mydata, function(d){ return d.index})]) // input
-        .range([0, 150]); // output
+        .range([0, 150]);
 
     var line = d3.line()
         .x(function(d, i) { return xScale(d.index); }) // set the x values for the line generator
         .y(function(d) { return yScale(d.cases); }); // set the y values for the line generator
-
 
     var nested = d3.nest()
         .key(function(d){ return d.country; })
@@ -131,41 +134,46 @@ Promise.all([
 
     const height = nested.length / columns * 250;
 
+    const chart_container = d3.select("#chart");
+    const multiple = chart_container.selectAll("svg")
+            .data(nested)
+            .enter()
+            .append("svg")
+            .attr("width", 250)
+            .attr("height", 250)
+            .attr("class", "multiple")
+            .append("g")
+            .attr("data", function(d) { return d.key })
+            .attr("transform", "translate(" + 50 + "," + 50 + ")");
 
-   const chart_container = d3.select("#chart");
+    multiple.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + 150 + ")")
+        .call(d3.axisBottom(xScale).tickValues([10, 20, 30, 40, 50, 60])); // Create an axis component with d3.axisBottom
 
-   const multiple = chart_container.selectAll("svg")
-        .data(nested)
-        .enter()
-        .append("svg")
-        .attr("width", 250)
-        .attr("height", 250)
-        .attr("class", "multiple")
-        .append("g")
-        .attr("data", function(d) { return d.key })
-        .attr("transform", "translate(" + 50 + "," + 50 + ")");
 
-//                .attr("transform", function(d, i){
-//                    var xshift = (i % columns) * 250;
-//                    var yshift = ~~(i / columns) * 300;
-//                    return "translate(" + xshift + "," + yshift + ")"} );
+    multiple.append("g")
+        .attr("class", "y axis")
+        .call(d3.axisLeft(yScale).ticks(5).tickValues([0, 10, 100, 1000, 10000, 100000])); // Create an axis component with d3.axisLeft
 
-    // This allows to find the closest X index of the mouse:
-    var bisect = d3.bisector(function(d) { return d.x; }).left;
+
+    multiple.append("text")
+        .text(function(d) {
+            let country_i = target_countries.indexOf(d.key);
+            return translated_countries[country_i]
+        })
+        .attr("transform", "translate(0," + -20 + ")")
+        .attr("x", "90")
+        .attr("text-anchor", "middle")
+        .style("font-weight", "bold");
+
 
     for (var key in nested) {
         drawLine(nested[key].values, nested[key].key);
     }
 
-    function drawLine(data, key) {
-        multiple
-            .append("text")
-            .text(function(d) {
-                let country_i = target_countries.indexOf(d.key);
-                return translated_countries[country_i]
-            })
-            .attr("transform", "translate(0," + -20 + ")");
 
+    function drawLine(data, key) {
         multiple.append("path")
             .datum(data)
             .attr("class", "line")
@@ -179,15 +187,7 @@ Promise.all([
                 return cur === key? 3 : 1
             })
             .attr("d", line);
-
-        multiple.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + 150 + ")")
-            .call(d3.axisBottom(xScale).tickValues([10, 20, 30, 40, 50, 60])); // Create an axis component with d3.axisBottom
-
-
-        multiple.append("g")
-            .attr("class", "y axis")
-            .call(d3.axisLeft(yScale).ticks(5).tickValues([0, 10, 100, 1000, 10000, 100000])); // Create an axis component with d3.axisLeft
     }
+
+
 });

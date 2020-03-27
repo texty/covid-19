@@ -1,0 +1,33 @@
+
+.donate-us {
+  margin: 80px auto 30px auto;
+
+  hr {
+    grid-column: 1/-1;
+    margin: 20px 0;
+  }
+
+  a.donate-button {
+    text-decoration: none;
+    cursor: pointer;
+    width: max-content;
+    margin: auto;
+    min-height: 50px;
+    padding: 10px;
+    color: white;
+    background-color: #ed6746;
+    display: flex;
+
+    p {
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: auto !important;
+      font-weight: 600;
+    }
+  }
+
+    a {
+      color: #ed6746;
+      border-bottom: 0;
+    }
+}
