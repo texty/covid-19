@@ -20,22 +20,21 @@ header {
         grid-column: 2/3;
         grid-row: 1/2;
         padding: 0 20px; } }
+    header .rubrics-container .rubric {
+      text-transform: uppercase;
+      letter-spacing: 0.5px; }
+      header .rubrics-container .rubric a {
+        text-decoration: none;
+        color: #333; }
     header .rubrics-container .r1 {
       grid-column: principals; }
-      @media (max-width: 800px) {
-        header .rubrics-container .r1 {
-          display: none; } }
     header .rubrics-container .r2 {
       grid-column-start: infographis; }
-      @media (max-width: 800px) {
-        header .rubrics-container .r2 {
-          display: none; } }
     header .rubrics-container .r3 {
       grid-column-start: burger; }
-      @media (max-width: 800px) {
-        header .rubrics-container .r3 {
-          grid-column: 1/2;
-          grid-row: 1/2; } }
+    @media (max-width: 800px) {
+      header .rubrics-container .r1, header .rubrics-container .r2, header .rubrics-container .r3 {
+        display: none; } }
   header .texty-logo {
     grid-column-start: logo-start;
     width: 150px;
@@ -52,16 +51,6 @@ header {
       max-width: 100%;
       max-height: 20px;
       object-fit: contain; }
-  header .rubric {
-    text-transform: uppercase;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    margin: 0;
-    text-decoration: none;
-    color: #333; }
-    header .rubric a span {
-      display: inline-block; }
 
 footer {
   background-color: #333;

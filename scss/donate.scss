@@ -1,3 +1,4 @@
+@import "variables";
 
 .donate-us {
   margin: 80px auto 30px auto;
@@ -15,7 +16,7 @@
     min-height: 50px;
     padding: 10px;
     color: white;
-    background-color: #ed6746;
+    background-color: $texty-salmon;
     display: flex;
 
     p {
@@ -27,7 +28,7 @@
   }
 
     a {
-      color: #ed6746;
+      color: $texty-salmon;
       border-bottom: 0;
     }
 }

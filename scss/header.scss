@@ -1,5 +1,4 @@
-$mq-narrow: 800px;
-$texty-salmon: #ed6746;
+@import "variables";
 
 header {
   min-height: 2em;
@@ -17,31 +16,30 @@ header {
     display: grid;
     grid-template-columns: [start principals] 15fr [infographis] 16fr [burger] 12fr;
     align-items: center;
-    @media(max-width: 800px) {
+    @media(max-width: $mq-narrow) {
       display: block;
       grid-column: 2/3;
       grid-row: 1/2;
       padding: 0 20px;
     }
 
-    .r1 {
-      grid-column: principals;
-      @media(max-width: 800px) {
-        display: none;
-      }
-    }
-    .r2 {
-      grid-column-start: infographis;
-      @media(max-width: 800px) {
-        display: none;
+    .rubric {
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      a {
+        text-decoration: none;
+        color: #333;
       }
     }
 
-    .r3 {
-      grid-column-start: burger;
-      @media(max-width: 800px) {
-        grid-column: 1/2;
-        grid-row: 1/2;
+    .r1 { grid-column: principals; }
+    .r2 { grid-column-start: infographis; }
+    .r3 { grid-column-start: burger; }
+
+    .r1, .r2, .r3 {
+      @media(max-width: $mq-narrow) {
+        display: none;
       }
     }
   }
@@ -52,7 +50,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    @media(max-width: 800px) {
+    @media(max-width: $mq-narrow) {
       grid-column: 1/2;
       justify-content: center;
       margin-left: 1em;
@@ -66,19 +64,7 @@ header {
     }
   }
 
-  .rubric {
-    text-transform: uppercase;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    margin: 0;
-    text-decoration: none;
-    color: #333;
 
-    a span {
-      display: inline-block;
-    }
-  }
 
 }
 

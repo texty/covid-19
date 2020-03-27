@@ -1,3 +1,5 @@
+@import "variables";
+
 footer {
   background-color: #333;
   color: white;
@@ -5,7 +7,7 @@ footer {
   padding: 30px 0;
   display: grid;
   grid-template-columns: 2fr 13fr 5fr 35fr 5fr 13fr 1fr ;
-  @media(max-width: 800px) {
+  @media(max-width: $mq-narrow) {
     background-color: black;
     color: white;
     padding: 30px 1em;
@@ -18,7 +20,7 @@ footer {
   }
 
   a:hover {
-    color: #ed6746;
+    color: $texty-salmon;
   }
 
   li, p {
@@ -64,7 +66,7 @@ footer {
   @media(max-width: 1050px){
     grid-template-columns: repeat(2, 1fr);
   }
-  @media(max-width: 800px){
+  @media(max-width: $mq-narrow){
     display: none;
   }
 
@@ -78,7 +80,7 @@ footer {
 /* соціальні мережі */
 #social_buttons {
   grid-column: -3/-2;
-  @media(max-width: 800px) {
+  @media(max-width: $mq-narrow) {
     margin-top: 50px;
   }
 
