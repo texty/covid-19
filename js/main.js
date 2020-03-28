@@ -6,11 +6,6 @@ const translated_countries = ["Україна", "Австрія", "Болгар�
     "Іран", "Ізраїль", "Італія", "Південна Корея", "Туреччина", "Молдова", "Польща", "Португалія",
     "Словенія", "Іспанія", "Швеція", "Великобританія", "США"];
 
-var formatTime = d3.timeFormat("%d-%m-%Y");
-var yesterday = new Date(new Date().setDate(new Date().getDate()-1));
-
-d3.select("#today").html(formatTime(yesterday));
-
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
@@ -21,6 +16,11 @@ Promise.all([
 
     var mydata = leftJoin(cases, deaths, "country", "country", "deaths")
         .filter(function(d){ return d.deaths > 0  });
+
+    //остання наявна в даних дата
+    const formatTime = d3.timeFormat("%d-%m-%Y");
+    const max_date = d3.max(mydata, function(d){ return d3.timeParse("%m/%d/%y")(d.date); });
+    d3.select("#today").html(formatTime(max_date));
 
     // append index to the each next day after first death
     var country = "";
@@ -55,9 +55,8 @@ Promise.all([
     set_size();
     d3.select(window).on("resize", set_size);
 
-
     const yScale = d3.scaleSymlog()
-        .domain([0, 100000])
+        .domain([0, d3.max(mydata, function(d){ return d.cases; })])
         .range([150, 0]);
 
     var xScale = d3.scaleLinear()
