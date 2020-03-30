@@ -1,10 +1,8 @@
-const target_countries = ["Ukraine", "Austria", "Bulgaria", "Canada", "China", "France", "Germany",
-    "Iran", "Israel", "Italy", "Korea, South", "Turkey", "Moldova", "Poland",
-    "Portugal", "Slovenia", "Spain", "Sweden", "United Kingdom", "US"];
+const target_countries = ["Ukraine", "US", "Spain", "Italy", "Germany", "United Kingdom", "China", "Austria", "Bulgaria", "Canada", "France",
+    "Iran", "Israel", "Korea, South", "Turkey", "Moldova", "Poland", "Portugal", "Slovenia",  "Sweden"];
 
-const translated_countries = ["Україна", "Австрія", "Болгарія", "Канада", "Китай", "Франція", "Німеччина",
-    "Іран", "Ізраїль", "Італія", "Південна Корея", "Туреччина", "Молдова", "Польща", "Португалія",
-    "Словенія", "Іспанія", "Швеція", "Великобританія", "США"];
+const translated_countries = ["Україна", "США", "Іспанія", "Італія", "Німеччина", "Великобританія", "Китай", "Австрія", "Болгарія", "Канада",  "Франція",
+    "Іран", "Ізраїль", "Південна Корея", "Туреччина", "Молдова", "Польща", "Португалія", "Словенія", "Швеція"];
 
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
@@ -65,11 +63,15 @@ Promise.all([
 
     var line = d3.line()
         .x(function(d, i) { return xScale(d.index); }) 
-        .y(function(d) { return yScale(d.cases); }); 
+        .y(function(d) { return yScale(d.cases); });
 
+    
     var nested = d3.nest()
         .key(function(d){ return d.country; })
         .entries(mydata);
+
+    //задаємо порядок країн
+    nested.sort((a, b) => target_countries.indexOf(a.key) - target_countries.indexOf(b.key));
 
     const height = nested.length / columns * 250;
     const chart_container = d3.select("#chart");
@@ -111,6 +113,15 @@ Promise.all([
         .attr("text-anchor", "middle")
         .style("font-weight", "bold");
 
+    // multiple.append("text")
+    //     .text(function(d) {
+    //         return d.key
+    //     })
+    //     .attr("transform", "translate(0," + 0 + ")")
+    //     .attr("x", "90")
+    //     .attr("text-anchor", "middle")
+    //     .style("font-weight", "bold");
+
 
     for (var key in nested) {
         drawLine(nested[key].values, nested[key].key);
@@ -131,7 +142,36 @@ Promise.all([
                 return cur === key? 3 : 1
             })
             .attr("d", line);
+
+
+        multiple.append('text')
+            .datum(data)
+            .filter(function(d, i) {
+                console.log(d);
+                return i === 0 || i === (data.length - 1)
+            })
+            .classed('label', true)
+            .attr('x', function(d,i) {
+                return xScale(d[d.length - 1].index);
+                })
+            .attr('y', function(d,i) {
+                return yScale(d[d.length - 1].cases);
+            })
+            .text(function(d,i){
+                console.log(d[d.length - 1].country);
+                var cur = d3.select(this.parentNode).attr("data");
+                // console.log(cur);
+                // console.log(key);
+                return cur === key ? d[d.length - 1].cases : ""
+            })
+            //.style("fill", "#cf1e25")
+            .style("font-size", "16px")
+            //.style("font-weight", "bold")
+        ;
+
     }
+
+
 });
 
 
@@ -192,3 +232,14 @@ function leftJoin(left, right, left_id, right_id, col_to_join) {
     });
     return result;
 }
+
+
+const customSort = ({data, sortBy, sortField}) => {
+    const sortByObject = sortBy.reduce(
+            (obj, item, index) => ({
+            ...obj,
+            [item]: index
+}), {})
+    return data.sort((a, b) => sortByObject[a[sortField]] - sortByObject[b[sortField]])
+}
+
