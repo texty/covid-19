@@ -134,11 +134,12 @@ Promise.all([
     }
 });
 
-/* from width to long format */
+
 const reshape = function(df, value_col_title){
     var filtered = df.filter(function(d) { return target_countries.includes(d["Country/Region"]) });
     var long_data = [];
 
+    /* from width to long format */
     filtered.forEach( function(row) {
         Object.keys(row).forEach( function(colname) {
             // columns for ignore
@@ -154,7 +155,7 @@ const reshape = function(df, value_col_title){
     var data = long_data.reduce(function(r, o) {
         var key = o.country + '-' + o.date;
         if(!helper[key]) {
-            helper[key] = Object.assign({}, o); // create a copy of o
+            helper[key] = Object.assign({}, o);
             r.push(helper[key]);
         } else {
             helper[key][value_col_title] += o[value_col_title];

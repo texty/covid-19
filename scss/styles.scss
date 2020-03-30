@@ -66,6 +66,16 @@ main {
     }
   }
 
+  a {
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 2px solid $texty-salmon;
+  }
+  a:hover {
+    color: $texty-salmon;
+
+  }
+
 }
 
 #chart_wrapper {

@@ -8,7 +8,7 @@ Sys.setlocale("LC_TIME", "Ukrainian")
 original_cases = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")  
 original_deaths = read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv") 
 
-setwd("/home/yevheniia/R/2020/covid-19")
+setwd("/home/yevheniia/git/2020_YEAR/covid-19")
 countries_translated = read.csv("countries_translated.csv")
 
 deaths = gather(original_deaths, "date", "amount", starts_with("X")) %>% 

@@ -239,6 +239,12 @@ main {
       main p:not(.donate-p), main h3 {
         width: 100%;
         margin: 10px 0; } }
+  main a {
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 2px solid #ed6746; }
+  main a:hover {
+    color: #ed6746; }
 
 #chart_wrapper {
   grid-column: 1/-1;
