@@ -147,8 +147,7 @@ Promise.all([
         multiple.append('text')
             .datum(data)
             .filter(function(d, i) {
-                console.log(d);
-                return i === 0 || i === (data.length - 1)
+                return i === 0
             })
             .classed('label', true)
             .attr('x', function(d,i) {
