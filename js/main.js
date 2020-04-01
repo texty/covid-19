@@ -1,8 +1,8 @@
-const target_countries = ["Ukraine", "US", "Spain", "Italy", "Germany", "United Kingdom", "China", "Austria", "Bulgaria", "Canada", "France",
-    "Iran", "Israel", "Korea, South", "Turkey", "Moldova", "Poland", "Portugal", "Slovenia",  "Sweden"];
+const target_countries = ["Ukraine", "US", "Spain", "Italy", "Germany", "United Kingdom", "China", "Russia", "Austria", "Bulgaria", "Canada", "France",
+    "Iran", "Israel", "Korea, South", "Turkey", "Poland", "Moldova", "Portugal", "Sweden"];
 
-const translated_countries = ["Україна", "США", "Іспанія", "Італія", "Німеччина", "Великобританія", "Китай", "Австрія", "Болгарія", "Канада",  "Франція",
-    "Іран", "Ізраїль", "Південна Корея", "Туреччина", "Молдова", "Польща", "Португалія", "Словенія", "Швеція"];
+const translated_countries = ["Україна", "США", "Іспанія", "Італія", "Німеччина", "Великобританія", "Китай", "Росія", "Австрія", "Болгарія", "Канада",  "Франція",
+    "Іран", "Ізраїль", "Південна Корея", "Туреччина", "Польща", "Молдова", "Португалія", "Швеція"];
 
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
