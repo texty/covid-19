@@ -191,6 +191,7 @@ footer {
     border-bottom: 0; }
 
 body {
+  height: 100%;
   margin: 0;
   font-family: 'ProximaNova', sans-serif; }
 
@@ -246,10 +247,10 @@ main {
   main a:hover {
     color: #ed6746; }
 
-#chart_wrapper {
+#chart_wrapper, #maps {
   grid-column: 1/-1;
   margin: 80px auto; }
-  #chart_wrapper p, #chart_wrapper h3 {
+  #chart_wrapper p, #chart_wrapper h3, #maps p, #maps h3 {
     width: 90%;
     line-height: 1.6;
     margin: 10px auto; }
@@ -269,5 +270,33 @@ main {
     font-weight: 300; }
   #chart .axis text {
     fill: grey; }
+
+.hexagons {
+  stroke: #000;
+  stroke-width: 1px; }
+
+path.region {
+  stroke: grey;
+  stroke-width: 1px;
+  fill: white; }
+
+#maps {
+  display: grid;
+  grid-template-columns: 1fr 1fr; }
+  @media (max-width: 812px) {
+    #maps {
+      display: block; } }
+  #maps h3, #maps .source {
+    grid-column: 1/-1; }
+  #maps p {
+    text-align: center; }
+
+.map {
+  height: 100%;
+  width: 100%; }
+
+.source {
+  text-align: right;
+  font-size: 14px; }
 
 /*# sourceMappingURL=styles.css.map */

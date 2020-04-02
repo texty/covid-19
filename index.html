@@ -40,8 +40,13 @@
 
 
     <!-- Links-->
+    <link rel="stylesheet" href="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css"/>
+
+    <!-- Script -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 <body>
    <header>
@@ -77,11 +82,46 @@
         <div id="chart_wrapper">
             <h3>COVID-19. Кількість захворювань по днях, починаючи з першої смерті. Станом на <span id="today"></span>.</h3>
             <p>У багатьох країнах перша смерть зафіксована після приблизно сотні виявлених хворих. В Україні перша смерть сталася при дуже малій кількості виявлених хворих. Це означає, що наш МОЗ дуже погано проводить тестування.</p>
-            <div id="chart">
+            <div id="chart"></div>
 
+            <p class="source">Дані: https://github.com/CSSEGISandData/COVID-19/</p>
+        </div>
+
+
+
+
+        <div id="maps">
+            <h3>Кількість осіб з підозрою на covid-19. Станом на <span id="">01-04-2020</span>.</h3>
+            <div>
+                <p>По областях</p>
+                <div class="map" id="ch_suspected"></div>
+            </div>
+            <div>
+                <p>По опорних лікарнях*</p>
+                <div class="map" id="hex_suspected"></div>
             </div>
 
-            <p style="text-align: right; font-size: 14px;">Дані: https://github.com/CSSEGISandData/COVID-19/</p>
+            <h3>Кількість діагностованих випппадків захворювання на covid-19. Станом на <span id="">01-04-2020</span>.</h3>
+            <div>
+                <p>По областях</p>
+                <div class="map" id="ch_confirmed"></div>
+            </div>
+            <div>
+                <p>По опорних лікарнях*</p>
+                <div class="map" id="hex_confirmed"></div>
+            </div>
+
+            <h3>Кількість смертей серед осіб з підтверженим covid-19. Станом на <span id="">01-04-2020</span>.</h3>
+            <div>
+                <p>По областях</p>
+                <div class="map" id="ch_died"></div>
+            </div>
+            <div>
+                <p>По опорних лікарнях*</p>
+                <div class="map" id="hex_died"></div>
+            </div>
+
+            <div class="source">Дані: https://public.tableau.com/profile/publicviz#!/vizhome/monitor_15841091301660</div>
         </div>
 
         <p>Раніше ми <a href="https://texty.org.ua/articles/100519/ukrayina-na-ostannomu-misci-u-sviti-po-kilkosti-testiv-na-koronavirus-ce-shlyah-do-katastrofy/" target="_blank">писали</a>, що Україна займає останнє місце за кількістю тестів на коронавірус серед 50 країн, щодо яких збирається статистика.
@@ -161,9 +201,13 @@
 
     <!-- Scripts -->
     <script src="lib/d3v5.min.js"></script>
-    <script src="lib/underscore-min.js"></script>
+    <script src="https://d3js.org/d3-hexbin.v0.2.min.js"></script>
+   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+   <script src="lib/underscore-min.js"></script>
     <script src="lib/share-behavior.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/map.js"></script>
 
 
     <script type="text/javascript">

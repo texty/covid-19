@@ -157,10 +157,7 @@ Promise.all([
                 return yScale(d[d.length - 1].cases);
             })
             .text(function(d,i){
-                console.log(d[d.length - 1].country);
                 var cur = d3.select(this.parentNode).attr("data");
-                // console.log(cur);
-                // console.log(key);
                 return cur === key ? d[d.length - 1].cases : ""
             })
             //.style("fill", "#cf1e25")

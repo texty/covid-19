@@ -4,6 +4,7 @@
 @import "donate";
 
 body {
+  height: 100%;
   margin: 0;
   font-family: 'ProximaNova', sans-serif;
 }
@@ -78,7 +79,7 @@ main {
 
 }
 
-#chart_wrapper {
+#chart_wrapper, #maps {
   grid-column: 1/-1;
   margin: 80px auto;
 
@@ -116,4 +117,43 @@ main {
     fill: grey;
   }
 
+}
+
+.hexagons {
+  stroke: #000;
+  stroke-width: 1px;
+}
+
+path.region {
+  stroke: grey;
+  stroke-width:1px;
+  fill: white;
+}
+
+#maps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  @media(max-width: 812px){
+    display: block;
+  }
+
+  h3, .source {
+    grid-column: 1/-1;
+  }
+
+
+
+  p {
+    text-align: center;
+  }
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.source {
+  text-align: right;
+  font-size: 14px;
 }
