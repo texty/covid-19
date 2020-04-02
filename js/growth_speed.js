@@ -114,7 +114,7 @@ Promise.all([
 //Determines number of ticks base on width
     function numTicks(widther) {
         if (widther <= 900) {
-            return 6;
+            return 4;
             console.log("return 4");
         }
         else {
