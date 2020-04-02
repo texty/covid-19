@@ -84,7 +84,7 @@ Promise.all([
             .attr("class", "multiple")
             .append("g")
             .attr("data", function(d) { return d.key })
-            .attr("transform", "translate(" + 50 + "," + 50 + ")");
+            .attr("transform", "translate(" + 60 + "," + 50 + ")");
 
     multiple.append("g")
         .attr("class", "x axis")

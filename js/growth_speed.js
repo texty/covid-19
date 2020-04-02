@@ -1,11 +1,18 @@
 Promise.all([
-    d3.csv("data/ukraine/by_date.csv"),
-    d3.csv("data/ukraine/by_regions.csv")
+    d3.csv("data/ukraine/cases_by_date.csv"),
+    d3.csv("data/ukraine/cases_by_region.csv")
 ]).then(function(data) {
+
+    var parseDate = d3.timeParse("%Y-%m-%d");
+    const formatDate = d3.timeFormat("%d/%m");
+    var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
     data[0] = data[0].filter(function(d){
         return d.comsum > 0
     });
+
+    const max_date = d3.max(data[0], function(d){ return parseDate(d.date)});
+    d3.selectAll(".current-date").text(formatDate(max_date));
 
     var margin = {top: 10, right: 100, bottom: 50, left: 35};
     var widther = d3.select("#total_amount").node().getBoundingClientRect().width;
@@ -13,15 +20,11 @@ Promise.all([
     var width = widther - margin.left - margin.right,
         height = 300 - margin.top - margin.bottom;
 
-    var parseDate = d3.timeParse("%Y-%m-%d");
-    const formatDate = d3.timeFormat("%d/%m");
-    var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
     var svg = d3.select("#total_amount")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        // .attr("viewBox", "0 0 " + widther + " 300")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

@@ -269,10 +269,11 @@ main {
     font-family: 'ProximaNova', sans-serif;
     font-weight: 300; }
   #chart .axis text {
-    fill: grey; }
+    fill: grey;
+    font-size: 12px; }
 
 .hexagons {
-  stroke: #000;
+  stroke: grey;
   stroke-width: 1px; }
 
 path.region {
@@ -298,7 +299,12 @@ path.region {
 
 .source {
   text-align: right;
-  font-size: 14px; }
+  font-size: 16px; }
+
+.numeral {
+  color: #cf1e25;
+  border-bottom: 2px solid #cf1e25;
+  padding-bottom: 1px; }
 
 #charts {
   margin: 100px auto auto auto;
