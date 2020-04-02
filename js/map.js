@@ -24,8 +24,8 @@ var chr_Orange = d3.scaleLinear()
 // var chr_Orange = d3.scaleOrdinal(d3.schemeOranges[5]);
 
 var hex_Red = d3.scaleLinear()
-    .domain([0, 10])
-    .range(["white", "red"]);
+    .domain([0, 50])
+    .range(["white", "red"]); //#cf1e25
 
 var hex_Orange = d3.scaleLinear()
     .domain([0, 100])

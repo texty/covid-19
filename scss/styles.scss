@@ -79,7 +79,7 @@ main {
 
 }
 
-#chart_wrapper, #maps {
+#chart_wrapper, #maps, #charts {
   grid-column: 1/-1;
   margin: 80px auto;
 
@@ -131,6 +131,7 @@ path.region {
 }
 
 #maps {
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   @media(max-width: 812px){
@@ -156,4 +157,77 @@ path.region {
 .source {
   text-align: right;
   font-size: 14px;
+}
+
+
+//line chart
+#charts {
+  margin: 100px auto auto auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  @media(max-width: 812px){
+    display: block;
+  }
+
+  p {
+
+  }
+}
+
+#growth_speed {
+  display: flex;
+
+  p {
+    margin: auto;
+  }
+}
+
+.y.axis line {
+  fill: none;
+  stroke: #ccc;
+  stroke-dasharray: 2px 3px;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
+
+.x.axis line {
+ display: none;
+}
+
+.axis text {
+  font-family: 'Proxima-Nova', sans-serif;
+  font-size: 13px;
+  pointer-events: none;
+  fill: #7e7e7e;
+}
+
+.y.axis text {
+  text-anchor: end !important;
+  font-size:14px;
+  fill: #7e7e7e;
+}
+
+.domain {
+  display: none;
+}
+
+.line {
+  stroke: #cf1e25;
+  stroke-width: 3px;
+  fill: transparent;
+  stroke-opacity: 0.8;
+  //fill-opacity: 0.8;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus {
+  font-size: 14px;
+}
+
+.focus circle {
+  fill: black;
 }
