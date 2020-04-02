@@ -139,23 +139,23 @@ Promise.all([
                 return colorScale(d.length);
             })
             .attr("data-tippy-content", function(d) {
-                let hosp = [];
-                d.forEach(function(k){
-                    if(k.hospital_name != "самоізоляція"){
-                        if(!hosp.includes(k.hospital_name)){
-                            hosp.push(k.hospital_name);
-                        }
-
-                    } else {
-                        if(!hosp.includes(k.hospital_id)) {
-                            hosp.push(k.hospital_id);
-                        }
-                    }
-
-                });
-                
-                return hosp;
-
+                // let hosp = [];
+                // d.forEach(function(k){
+                //     if(k.hospital_name != "самоізоляція"){
+                //         if(!hosp.includes(k.hospital_name)){
+                //             hosp.push(k.hospital_name);
+                //         }
+                //
+                //     } else {
+                //         if(!hosp.includes(k.hospital_id)) {
+                //             hosp.push(k.hospital_id);
+                //         }
+                //     }
+                //
+                // });
+                //
+                // return hosp;
+                return tip + d.length
             })
             .on("click",  function(d) {
                 console.log(d);
