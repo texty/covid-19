@@ -30,8 +30,6 @@ Promise.all([
     d3.csv("data/ukraine/cases_by_region.csv")
 ]).then(function(files) {
 
-   
-
     var regions = [];
     files[4].forEach(function (d, i) {
         d.confirmed = +d.confirmed;
@@ -41,13 +39,9 @@ Promise.all([
         regions.push(d.region)
     });
 
-
+    // map by region
     const create_choropl_map = function(container, column, colorScale, tip) {
-
-        colorScale.domain([0, d3.max(files[4],
-            function(d){
-                return d[column] })
-        ]);
+        colorScale.domain([0, d3.max(files[4], function(d){ return d[column] }) ]);
 
         var main_map  = d3.select(container)
             .append('svg')
@@ -96,10 +90,8 @@ Promise.all([
     create_choropl_map("#ch_died", "deaths", chr_Red, "Померло: ");
 
 
-
+    /* hexagonic map */
     const create_hex_map = function(df, container, colorScale, tip, colname) {
-
-
         df.forEach(function (d) {
             d[1] = +d.lat;
             d[0] = +d.lon;

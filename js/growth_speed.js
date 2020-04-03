@@ -2,8 +2,11 @@ Promise.all([
     d3.csv("data/ukraine/cases_by_date.csv"),
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 ]).then(function(files) {
-    
-    var parseDate = d3.timeParse("%Y-%m-%d");
+    const margin = {top: 50, left: 50, bottom: 50, right: 50};
+    const width = d3.select("#growth_speed").node().getBoundingClientRect().width - margin.left - margin.right;
+    const height = 350;
+
+    const parseDate = d3.timeParse("%Y-%m-%d");
     const formatDate = d3.timeFormat("%d/%m");
     const max_date = d3.max(files[0], function(d){ return parseDate(d.date)});
     d3.selectAll(".current-date").text(formatDate(max_date));
@@ -34,34 +37,16 @@ Promise.all([
         }
     });
 
+    const max_day = d3.max(ukraine_growth_data, function(d){ return d.index});
+    var max_cases = d3.max(ukraine_growth_data, function(d){ return d.cases; });
+        max_cases = Math.ceil (max_cases / 25000) * 25000;
+    const x0 = 10;
+
     var nested = d3.nest()
         .key(function(d){ return d.country; })
         .entries(ukraine_growth_data);
 
-    console.log(nested);
-
     nested.sort( function(a, b) { return  sortArray.indexOf(b.key) - sortArray.indexOf(a.key)});
-
-    const margin = {top: 50, left: 50, bottom: 50, right: 50};
-    const width = d3.select("#growth_speed").node().getBoundingClientRect().width - margin.left - margin.right;
-    const height = 350;
-
-
-    const max_day = d3.max(ukraine_growth_data, function(d){ return d.index});
-    var max_cases = d3.max(ukraine_growth_data, function(d){ return d.cases; });
-    max_cases = Math.ceil (max_cases / 25000) * 25000;
-    const x0 = 10;
-
-    function calculate_model(x0, n){
-        var model = [];
-        for(var t = 1; t <= max_day; t++){
-            let day_value = Math.round(x0 * Math.pow(2, (t/n)));
-            if(day_value < max_cases) {
-                model.push({"index": t, "cases": day_value});
-            }
-        }
-        return model;
-    }
 
     const yScale = d3.scaleSymlog()
         .domain([x0, max_cases])
@@ -75,6 +60,7 @@ Promise.all([
         .x(function(d, i) { return xScale(d.index); })
         .y(function(d) { return yScale(d.cases); });
 
+
     const svg = d3.select("#growth_speed")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -82,23 +68,23 @@ Promise.all([
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    //x axis
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale)
             .ticks(10)
-            .tickFormat(function(d, i) { return i == 0 ?"день " + d : d})
+            .tickFormat(function(d, i) { return i == 0 ?"день " + d : d}));
 
-        );
-
+    //y axis
     svg.append("g")
         .attr("class", "y axis")
         .call(d3.axisLeft(yScale)
             .tickSize(-width)
-            .tickValues([10, 100, 1000, 10000, 25000, 50000, max_cases])
-        );
+            .tickValues([10, 100, 1000, 10000, 25000, 50000, max_cases]));
 
-    /* контейнер для графіка*/
+
+    /* chart container*/
     const wrapper = svg.append("g")
         .attr("transform", "translate(0," + 0 + ")");
 
@@ -107,38 +93,28 @@ Promise.all([
         .append('g')
         .attr('class', 'line-group');
 
-    const lines_ = glines
+    /* countries lines */
+    glines
         .append('path')
         .attr('class', 'line-interactive')
-        .attr('d', d => line(d.values))
-        .style('stroke', (d, i) => colorCountry(d.key))
-        .on("mouseover", function(d){
+        .attr('d', function(d) { return line(d.values)})
+        .style('stroke', function(d) { return colorCountry(d.key)});
 
-    });
-
+    /* countries labels */
     glines
         .append('text')
         .classed('label', true)
-        .attr('x', function(k) {
-            return xScale(k.values[k.values.length - 1].index - 3);
-        })
-        .attr('y', function(k) {
-            return yScale(k.values[k.values.length - 1].cases) - 8;
-        })
-        .text(function(k) {
-            return translatedArray[sortArray.indexOf(k.key)];
-        })
+        .attr('x', function(k) { return xScale(k.values[k.values.length - 1].index - 3); })
+        .attr('y', function(k) { return yScale(k.values[k.values.length - 1].cases) - 8; })
+        .text(function(k) { return translatedArray[sortArray.indexOf(k.key)]; })
         .style("font-size", "17px")
         .style("font-weight", "bold")
-        .style("fill", function(k) {
-            return colorCountry(k.key)
-        });
+        .style("fill", function(k) { return colorCountry(k.key) });
 
 
 
-/////////////////////// tooltips /////////////////////////////////////////////////////////////
-
-    var mouseG = glines.append("g") // this the black vertical line to folow mouse
+    /* tooltips */
+    var mouseG = glines.append("g") // black vertical line
         .attr("class","mouse-over-effects");
 
     mouseG.append("path")
@@ -153,9 +129,7 @@ Promise.all([
 
     mousePerLine.append("circle")
         .attr("r", 7)
-        .style("stroke",function(d){
-            return colorCountry(d.key);
-        })
+        .style("stroke",function(d){ return colorCountry(d.key); })
         .style("fill", "none")
         .style("stroke-width", "1px")
         .style("opacity", "0");
@@ -183,6 +157,7 @@ Promise.all([
         .on("mousemove",function() {
             var bisect = d3.bisector(function (d) {  return d.index; }).right;
             var mouse = d3.mouse(this);
+            var xDate = xScale.invert(mouse[0]);
             d3.select(".mouse-line")
                 .attr("d", function () {
                     var d = "M" + mouse[0] + "," + height;
@@ -191,8 +166,7 @@ Promise.all([
                 });
 
             d3.selectAll(".mouse-per-line")
-                    .attr("transform", function (d, i) {
-                    var xDate = xScale.invert(mouse[0]);
+                .attr("transform", function (d, i) {
                     var idx = bisect(d.values, xDate);
                     var beginning = 0,
                         end = lines[i].getTotalLength(),
@@ -200,12 +174,10 @@ Promise.all([
 
                     while (true) {
                         target = Math.floor((beginning + end)/2);
-
                         pos = lines[i].getPointAtLength(target);
                         if ((target === end || target == beginning) && pos.x !== mouse[0]) {
                             break;
                         }
-
                         if (pos.x > mouse[0]) end = target;
                         else if (pos.x < mouse[0]) beginning = target;
                         else break; // position found
@@ -214,16 +186,12 @@ Promise.all([
                     d3.select(this)
                         .select("text")
                         .text(function(){
-                            var textValue = d.values.filter(function(k){
-                                return k.index === idx
-                            });
+                            var textValue = d.values.filter(function(k){  return k.index === idx  });
                             if(textValue.length > 0) {
                                 return textValue[0].cases;
                             }
                         })
-                        .style("fill", function (d) {
-                            return colorCountry(d.key)
-                        })
+                        .style("fill", function (d) { return colorCountry(d.key) })
                         .attr("transform", function(d){
                             if(d.key === "Ukraine") {
                                 return "translate(" + 10 + "," + -(10) + ")"
@@ -236,24 +204,9 @@ Promise.all([
                         .style("font-weight", "bold")
                         .style("text-shadow", "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px  1px 0 #fff, 1px  1px 0 #fff");
 
-                        if(d.key === "Ukraine"){
-                            return "translate(" + mouse[0] + "," + (pos.y) + ")";
-                        } else  if(d.key === "Poland"){
-                            return "translate(" + mouse[0] + "," + (pos.y) + ")";
-                        } else {
-                            return "translate(" + mouse[0] + "," + (pos.y) + ")";
-                        }
-                    })
-                    .style("opacity", function(d, i){
-                        var xDate = xScale.invert(mouse[0]).toFixed(0);
-                        var idx = bisect(d.values, xDate);
-
-                        if(xDate < d.values.length){
-                            return 1
-                        } else {
-                            return 0
-                        }
-                    });
+                    return "translate(" + mouse[0] + "," + (pos.y) + ")";
+                })
+                .style("opacity", function(d, i){ return xDate < d.values.length ? 1: 0 });
         });
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +237,21 @@ Promise.all([
             .style("fill", "grey")
             .style("font-size", "14px")
             .attr("text-anchor", function(d, i) { return n == 1 ? "end": "middle" });
-    })
+    });
+
+
+    function calculate_model(x0, n){
+        var model = [];
+        for(var t = 1; t <= max_day; t++){
+            let day_value = Math.round(x0 * Math.pow(2, (t/n)));
+            if(day_value < max_cases) {
+                model.push({"index": t, "cases": day_value});
+            }
+        }
+        return model;
+    }
+
+
 
 });
 
