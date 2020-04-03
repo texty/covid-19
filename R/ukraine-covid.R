@@ -9,7 +9,7 @@ library('xlsx')
 library("readxl")
 
 setwd('/home/yevheniia/git/2020_YEAR/covid-19/data/source-data/ukraine/')
-xlsx_ <- read_excel("monitoring_v4_2020-04-02.xlsx", sheet=1, col_names = TRUE,col_types=NULL, na="") %>% 
+xlsx_ <- read_excel("monitoring_v4_2020-04-03.xlsx", sheet=1, col_names = TRUE,col_types=NULL, na="") %>% 
   rename(date =`Звітна дата`) %>% 
   rename(region = `Область`) %>% 
   rename(district = `Район`) %>% 
@@ -129,12 +129,12 @@ deaths = split_dataset(xlsx_, "deaths")
 by_region = get_data_by_region(xlsx_)
 by_date = get_data_by_date(xlsx_)
 
-# setwd("/home/yevheniia/git/2020_YEAR/covid-19/data/ukraine/")
-# write.csv(by_date, "cases_by_date.csv", row.names = F)
-# write.csv(by_region, "cases_by_regions.csv", row.names = F)
-# write.csv(confirmed, "confirmed_cases.csv", row.names = F)
-# write.csv(suspected, "suspected_cases.csv", row.names = F)
-# write.csv(deaths, "death_cases.csv", row.names = F)
+setwd("/home/yevheniia/git/2020_YEAR/covid-19/data/ukraine/")
+write.csv(by_date, "cases_by_date.csv", row.names = F)
+write.csv(by_region, "cases_by_regions.csv", row.names = F)
+write.csv(confirmed, "confirmed_cases.csv", row.names = F)
+write.csv(suspected, "suspected_cases.csv", row.names = F)
+write.csv(deaths, "death_cases.csv", row.names = F)
 
 
 

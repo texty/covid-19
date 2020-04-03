@@ -8,9 +8,10 @@ Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
 ]).then(function(files) {
- 
-    var cases = reshape(files[0], "cases");
-    var deaths = reshape(files[1], "deaths");   
+    
+    //FT small multiples
+    var cases = reshape(files[0].filter(function(d) { return target_countries.includes(d["Country/Region"]) }), "cases");
+    var deaths = reshape(files[1].filter(function(d) { return target_countries.includes(d["Country/Region"]) }), "deaths");
 
     var mydata = leftJoin(cases, deaths, "country", "country", "deaths")
         .filter(function(d){ return d.deaths > 0  });
@@ -43,7 +44,7 @@ Promise.all([
         width = d3.select("#chart_wrapper").node().getBoundingClientRect().width;
         columns = Math.floor(width/250);
         if(width > 800) {
-            d3.selectAll("#chart, #charts, #chart_wrapper p, #chart_wrapper h3").style("width", columns * 250 + "px");
+            d3.selectAll(".set-width").style("width", columns * 250 + "px");
         } else {
             d3.selectAll("#chart").style("width", columns * 250 + "px");
             d3.selectAll("#chart_wrapper p, #chart_wrapper h3").style("width", "100%");
@@ -71,7 +72,7 @@ Promise.all([
         .entries(mydata);
 
     //задаємо порядок країн
-    nested.sort((a, b) => target_countries.indexOf(a.key) - target_countries.indexOf(b.key));
+    nested.sort( function(a, b) { return  target_countries.indexOf(a.key) - target_countries.indexOf(b.key)});
 
     const height = nested.length / columns * 250;
     const chart_container = d3.select("#chart");
@@ -113,20 +114,9 @@ Promise.all([
         .attr("text-anchor", "middle")
         .style("font-weight", "bold");
 
-    // multiple.append("text")
-    //     .text(function(d) {
-    //         return d.key
-    //     })
-    //     .attr("transform", "translate(0," + 0 + ")")
-    //     .attr("x", "90")
-    //     .attr("text-anchor", "middle")
-    //     .style("font-weight", "bold");
-
-
     for (var key in nested) {
         drawLine(nested[key].values, nested[key].key);
     }
-
 
     function drawLine(data, key) {
         multiple.append("path")
@@ -160,23 +150,24 @@ Promise.all([
                 var cur = d3.select(this.parentNode).attr("data");
                 return cur === key ? d[d.length - 1].cases : ""
             })
-            //.style("fill", "#cf1e25")
-            .style("font-size", "16px")
-            //.style("font-weight", "bold")
-        ;
-
+            .style("font-size", "16px");
     }
+    
+    
+    
+    
+    //GROWTH
+    
 
 
 });
 
 
 const reshape = function(df, value_col_title){
-    var filtered = df.filter(function(d) { return target_countries.includes(d["Country/Region"]) });
     var long_data = [];
 
     /* from width to long format */
-    filtered.forEach( function(row) {
+    df.forEach( function(row) {
         Object.keys(row).forEach( function(colname) {
             // columns for ignore
             if(colname == "Country/Region" || colname == "Province/State" || colname == "Lat" || colname == "Long") {
@@ -230,12 +221,12 @@ function leftJoin(left, right, left_id, right_id, col_to_join) {
 }
 
 
-const customSort = ({data, sortBy, sortField}) => {
-    const sortByObject = sortBy.reduce(
-            (obj, item, index) => ({
-            ...obj,
-            [item]: index
-}), {})
-    return data.sort((a, b) => sortByObject[a[sortField]] - sortByObject[b[sortField]])
-}
-
+// const customSort = ({data, sortBy, sortField}) => {
+//     const sortByObject = sortBy.reduce(
+//             (obj, item, index) => ({
+//             ...obj,
+//             [item]: index
+// }), {})
+//     return data.sort((a, b) => sortByObject[a[sortField]] - sortByObject[b[sortField]])
+// }
+//

@@ -1,127 +1,293 @@
 Promise.all([
     d3.csv("data/ukraine/cases_by_date.csv"),
-    d3.csv("data/ukraine/cases_by_region.csv")
-]).then(function(data) {
-
+    d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
+]).then(function(files) {
+    
     var parseDate = d3.timeParse("%Y-%m-%d");
     const formatDate = d3.timeFormat("%d/%m");
-    var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-
-    data[0] = data[0].filter(function(d){
-        return d.comsum > 0
-    });
-
-    const max_date = d3.max(data[0], function(d){ return parseDate(d.date)});
+    const max_date = d3.max(files[0], function(d){ return parseDate(d.date)});
     d3.selectAll(".current-date").text(formatDate(max_date));
 
-    var margin = {top: 10, right: 100, bottom: 50, left: 35};
-    var widther = d3.select("#total_amount").node().getBoundingClientRect().width;
+    const sortArray = ["Ukraine", "Turkey", "Poland", "Spain"];
+    const translatedArray = ["Україна", "Туреччина", "Польща", "Іспанія"];
 
-    var width = widther - margin.left - margin.right,
-        height = 300 - margin.top - margin.bottom;
+    const colorCountry = d3.scaleOrdinal()
+        .domain(["Ukraine", "Turkey", "Poland", "Spain"])
+        .range(["red", "#333", "blue", "green"]);
+
+    const input = files[1].filter(function(d) { return ["Ukraine", "Turkey", "Poland", "Spain"].includes(d["Country/Region"]) });
+    const ukraine_growth_data = reshape(input,"cases").filter(function(d){ return d.cases > 10  });
+
+    // append index to the each next day after first death
+    var country = "";
+    var index = 0;
+
+    ukraine_growth_data.forEach(function(d, i){
+        if(country != d.country) {
+            index = 0;
+            d.index = index;
+            country = d.country;
+            index = index + 1
+        }  else {
+            d.index = index;
+            index = index + 1
+        }
+    });
+
+    var nested = d3.nest()
+        .key(function(d){ return d.country; })
+        .entries(ukraine_growth_data);
+
+    console.log(nested);
+
+    nested.sort( function(a, b) { return  sortArray.indexOf(b.key) - sortArray.indexOf(a.key)});
+
+    const margin = {top: 50, left: 50, bottom: 50, right: 50};
+    const width = d3.select("#growth_speed").node().getBoundingClientRect().width - margin.left - margin.right;
+    const height = 350;
 
 
-    var svg = d3.select("#total_amount")
+    const max_day = d3.max(ukraine_growth_data, function(d){ return d.index});
+    var max_cases = d3.max(ukraine_growth_data, function(d){ return d.cases; });
+    max_cases = Math.ceil (max_cases / 25000) * 25000;
+    const x0 = 10;
+
+    function calculate_model(x0, n){
+        var model = [];
+        for(var t = 1; t <= max_day; t++){
+            let day_value = Math.round(x0 * Math.pow(2, (t/n)));
+            if(day_value < max_cases) {
+                model.push({"index": t, "cases": day_value});
+            }
+        }
+        return model;
+    }
+
+    const yScale = d3.scaleSymlog()
+        .domain([x0, max_cases])
+        .range([height, 0]);
+
+    var xScale = d3.scaleLinear()
+        .domain([1, max_day])
+        .range([0, width]);
+
+    var line = d3.line()
+        .x(function(d, i) { return xScale(d.index); })
+        .y(function(d) { return yScale(d.cases); });
+
+    const svg = d3.select("#growth_speed")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var xScale = d3.scaleTime().range([0, width]);
-    var yScale = d3.scaleLinear() .range([height, 0]);
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(xScale)
+            .ticks(10)
+            .tickFormat(function(d, i) { return i == 0 ?"день " + d : d})
 
-    var yAxis = d3.axisLeft(yScale)
-        .ticks(6)
-        .tickSize(-width)
-        .tickPadding(8);
+        );
 
-    var xAxis = d3.axisBottom(xScale)
-        .tickPadding(8)
-        // .tickSize(height)
-        .ticks(numTicks(width))
-        .tickFormat(d3.timeFormat("%d/%m"));
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(d3.axisLeft(yScale)
+            .tickSize(-width)
+            .tickValues([10, 100, 1000, 10000, 25000, 50000, max_cases])
+        );
 
-    var area = d3.line()
-        .x(function(d) { return xScale(d.date); })
-        // .y0(yScale(0))
-        .y(function(d) { return yScale(d.comsum); });
+    /* контейнер для графіка*/
+    const wrapper = svg.append("g")
+        .attr("transform", "translate(0," + 0 + ")");
 
-        data[0].forEach(function(d) {
-            d.comsum = +d.comsum;
-            d.date = parseDate(d.date);
+    var glines = wrapper.selectAll('.line-group')
+        .data(nested).enter()
+        .append('g')
+        .attr('class', 'line-group');
+
+    const lines_ = glines
+        .append('path')
+        .attr('class', 'line-interactive')
+        .attr('d', d => line(d.values))
+        .style('stroke', (d, i) => colorCountry(d.key))
+        .on("mouseover", function(d){
+
+    });
+
+    glines
+        .append('text')
+        .classed('label', true)
+        .attr('x', function(k) {
+            return xScale(k.values[k.values.length - 1].index - 3);
+        })
+        .attr('y', function(k) {
+            return yScale(k.values[k.values.length - 1].cases) - 8;
+        })
+        .text(function(k) {
+            return translatedArray[sortArray.indexOf(k.key)];
+        })
+        .style("font-size", "17px")
+        .style("font-weight", "bold")
+        .style("fill", function(k) {
+            return colorCountry(k.key)
         });
 
-        data[0].sort(function(a,b) { return a.date - b.date; });
-
-        xScale.domain(d3.extent(data[0], function(d) { return d.date; }));
-        yScale.domain(d3.extent(data[0], function(d) { return d.comsum; }));
-
-        var yAxisGroup = svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
-
-        var xAxisGroup = svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-            // .selectAll("text")
-            // .attr("y", 0)
-            // .attr("x", 9)
-            // .attr("dy", ".35em")
-            // .attr("transform", "rotate(90)")
-            // .style("text-anchor", "start")
-            ;
-
-        var drawline = svg.append("path")
-            .datum(data[0])
-            .attr("class", "line")
-            .attr("d", area);
-
-        var focus = svg.append("g")
-            .attr("class", "focus")
-            .style("display", "none");
-
-        focus.append("circle")
-            .attr("r", 4);
-
-        focus.append("text")
-            .attr("x", 9)
-            .attr("dy", ".35em");
-
-        var overlay = svg.append("rect")
-            .attr("class", "overlay")
-            .attr("width", width)
-            .attr("height", height)
-            .on("mouseover", function() { focus.style("display", null); })
-            .on("mouseout", function() { focus.style("display", "none"); })
-            .on("mousemove", mousemove);
-
-        function mousemove() {
-            var x0 = xScale.invert(d3.mouse(this)[0]),
-                i = bisectDate(data[0], x0, 1),
-                d0 = data[0][i - 1],
-                d1 = data[0][i],
-                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-
-            focus.attr("transform", "translate(" + xScale(d.date) + "," + yScale(d.comsum) + ")");
-            focus.select("text").text(formatDate(d.date) + " - " + d.comsum);
-        }
 
 
+/////////////////////// tooltips /////////////////////////////////////////////////////////////
+
+    var mouseG = glines.append("g") // this the black vertical line to folow mouse
+        .attr("class","mouse-over-effects");
+
+    mouseG.append("path")
+        .attr("class","mouse-line")
+        .style("stroke","black")
+        .style("stroke-width","1px")
+        .style("opacity","0");
+
+    var mousePerLine = mouseG
+        .append("g")
+        .attr("class","mouse-per-line");
+
+    mousePerLine.append("circle")
+        .attr("r", 7)
+        .style("stroke",function(d){
+            return colorCountry(d.key);
+        })
+        .style("fill", "none")
+        .style("stroke-width", "1px")
+        .style("opacity", "0");
+
+    mousePerLine.append("text")
+        .attr("transform","translate(10,3)");
+
+    var lines = document.getElementsByClassName("line-interactive");
+
+    mouseG.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill","none")
+        .attr("pointer-events","all")
+        .on("mouseout",function(){
+            d3.select(".mouse-line").style("opacity","0");
+            d3.selectAll(".mouse-per-line circle").style("opacity","0");
+            d3.selectAll(".mouse-per-line text").style("opacity","0")
+        })
+        .on("mouseover",function(){
+            d3.select(".mouse-line").style("opacity","1");
+            d3.selectAll(".mouse-per-line circle").style("opacity","1");
+            d3.selectAll(".mouse-per-line text").style("opacity","1")
+        })
+        .on("mousemove",function() {
+            var bisect = d3.bisector(function (d) {  return d.index; }).right;
+            var mouse = d3.mouse(this);
+            d3.select(".mouse-line")
+                .attr("d", function () {
+                    var d = "M" + mouse[0] + "," + height;
+                    d += " " + mouse[0] + "," + 0;
+                    return d;
+                });
+
+            d3.selectAll(".mouse-per-line")
+                    .attr("transform", function (d, i) {
+                    var xDate = xScale.invert(mouse[0]);
+                    var idx = bisect(d.values, xDate);
+                    var beginning = 0,
+                        end = lines[i].getTotalLength(),
+                        target = null;
+
+                    while (true) {
+                        target = Math.floor((beginning + end)/2);
+
+                        pos = lines[i].getPointAtLength(target);
+                        if ((target === end || target == beginning) && pos.x !== mouse[0]) {
+                            break;
+                        }
+
+                        if (pos.x > mouse[0]) end = target;
+                        else if (pos.x < mouse[0]) beginning = target;
+                        else break; // position found
+                    }
+
+                    d3.select(this)
+                        .select("text")
+                        .text(function(){
+                            var textValue = d.values.filter(function(k){
+                                return k.index === idx
+                            });
+                            if(textValue.length > 0) {
+                                return textValue[0].cases;
+                            }
+                        })
+                        .style("fill", function (d) {
+                            return colorCountry(d.key)
+                        })
+                        .attr("transform", function(d){
+                            if(d.key === "Ukraine") {
+                                return "translate(" + 10 + "," + -(10) + ")"
+                            } else if(d.key === "Poland") {
+                                return "translate(" + 10 + "," + 10 + ")"
+                            } else {
+                                return "translate(" + 10 + "," + 0 + ")";
+                            }
+                        })
+                        .style("font-weight", "bold")
+                        .style("text-shadow", "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px  1px 0 #fff, 1px  1px 0 #fff");
+
+                        if(d.key === "Ukraine"){
+                            return "translate(" + mouse[0] + "," + (pos.y) + ")";
+                        } else  if(d.key === "Poland"){
+                            return "translate(" + mouse[0] + "," + (pos.y) + ")";
+                        } else {
+                            return "translate(" + mouse[0] + "," + (pos.y) + ")";
+                        }
+                    })
+                    .style("opacity", function(d, i){
+                        var xDate = xScale.invert(mouse[0]).toFixed(0);
+                        var idx = bisect(d.values, xDate);
+
+                        if(xDate < d.values.length){
+                            return 1
+                        } else {
+                            return 0
+                        }
+                    });
+        });
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //лінії моделів
+    [1, 2, 3, 5].forEach(function (n) {
+        const model_wrapper = wrapper.append("g")
+            .attr("class", "model-" + n);
+
+        model_wrapper.append("path")
+            .attr("d", line(calculate_model(x0, n)))
+            .attr("class", "model-line");
 
 
-//Determines number of ticks base on width
-    function numTicks(widther) {
-        if (widther <= 900) {
-            return 4;
-            console.log("return 4");
-        }
-        else {
-            return 12;
-            console.log("return 5");
-        }
-    }
-
+        model_wrapper.selectAll("text")
+            .data(calculate_model(x0, n))
+            .enter()
+            .append("text")
+            .attr("x", function (d) {
+                return xScale(d.index)
+            })
+            .attr("y", function (d) {
+                return yScale(d.cases)
+            })
+            .text(function (d, i) {
+                return i === calculate_model(x0, n).length - n ? "подвоєння - " + n + " дн." : null;
+            })
+            .style("fill", "grey")
+            .style("font-size", "14px")
+            .attr("text-anchor", function(d, i) { return n == 1 ? "end": "middle" });
+    })
 
 });
+
+
+
+

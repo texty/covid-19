@@ -20,6 +20,8 @@ var chr_Red = d3.scaleSqrt()
 var hex_Red = d3.scaleSqrt()
     .range(["white", "#cf1e25"]);
 
+
+
 Promise.all([
     d3.json("data/ukr_adm1_lite.json"),
     d3.csv("data/ukraine/confirmed_cases.csv"),
@@ -27,6 +29,8 @@ Promise.all([
     d3.csv("data/ukraine/death_cases.csv"),
     d3.csv("data/ukraine/cases_by_region.csv")
 ]).then(function(files) {
+
+   
 
     var regions = [];
     files[4].forEach(function (d, i) {
