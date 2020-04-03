@@ -48,7 +48,7 @@ Promise.all([
     nested.sort( function(a, b) { return  sortArray.indexOf(b.key) - sortArray.indexOf(a.key)});
 
     drawSpeedChart();
-    d3.select(window).on("resize", drawSpeedChart);
+    window.addEventListener("resize", drawSpeedChart)
 
     function drawSpeedChart() {
         d3.select("#growth_speed svg").remove();
@@ -73,7 +73,7 @@ Promise.all([
 
 
         const svg = d3.select("#growth_speed")
-            .append("svg")
+            .insert("svg", ".source")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")

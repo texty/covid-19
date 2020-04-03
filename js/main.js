@@ -13,19 +13,19 @@ Promise.all([
     var cases = reshape(files[0].filter(function(d) { return target_countries.includes(d["Country/Region"]) }), "cases");
     var deaths = reshape(files[1].filter(function(d) { return target_countries.includes(d["Country/Region"]) }), "deaths");
 
-    var mydata = leftJoin(cases, deaths, "country", "country", "deaths")
+    var multiples_data = leftJoin(cases, deaths, "country", "country", "deaths")
         .filter(function(d){ return d.deaths > 0  });
 
     //остання наявна в даних дата
     const formatTime = d3.timeFormat("%d-%m-%Y");
-    const max_date = d3.max(mydata, function(d){ return d3.timeParse("%m/%d/%y")(d.date); });
+    const max_date = d3.max(multiples_data, function(d){ return d3.timeParse("%m/%d/%y")(d.date); });
     d3.select("#today").html(formatTime(max_date));
 
     // append index to the each next day after first death
     var country = "";
     var index = 1;
 
-    mydata.forEach(function(d, i){
+    multiples_data.forEach(function(d, i){
         if(country != d.country) {
             index = 1;
             d.index = index;
@@ -41,10 +41,11 @@ Promise.all([
     var columns;
 
     const set_size = function(){
+        console.log("stop do it!");
         width = d3.select("#chart_wrapper").node().getBoundingClientRect().width;
         columns = Math.floor(width/250);
         if(width > 800) {
-            d3.selectAll(".set-width").style("width", columns * 250 + "px");
+            d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3").style("width", columns * 250 + "px");
         } else {
             d3.selectAll("#chart").style("width", columns * 250 + "px");
             d3.selectAll("#chart_wrapper p, #chart_wrapper h3").style("width", "100%");
@@ -52,14 +53,14 @@ Promise.all([
     };
     
     set_size();
-    d3.select(window).on("resize", set_size);
+    window.addEventListener("resize", set_size);
 
     const yScale = d3.scaleSymlog()
-        .domain([0, d3.max(mydata, function(d){ return d.cases; })])
+        .domain([0, d3.max(multiples_data, function(d){ return d.cases; })])
         .range([150, 0]);
 
     var xScale = d3.scaleLinear()
-        .domain([0, d3.max(mydata, function(d){ return d.index})]) 
+        .domain([0, d3.max(multiples_data, function(d){ return d.index})])
         .range([0, 150]);
 
     var line = d3.line()
@@ -69,7 +70,7 @@ Promise.all([
     
     var nested = d3.nest()
         .key(function(d){ return d.country; })
-        .entries(mydata);
+        .entries(multiples_data);
 
     //задаємо порядок країн
     nested.sort( function(a, b) { return  target_countries.indexOf(a.key) - target_countries.indexOf(b.key)});
@@ -151,14 +152,7 @@ Promise.all([
                 return cur === key ? d[d.length - 1].cases : ""
             })
             .style("font-size", "16px");
-    }
-    
-    
-    
-    
-    //GROWTH
-    
-
+    }  
 
 });
 
@@ -220,13 +214,3 @@ function leftJoin(left, right, left_id, right_id, col_to_join) {
     return result;
 }
 
-
-// const customSort = ({data, sortBy, sortField}) => {
-//     const sortByObject = sortBy.reduce(
-//             (obj, item, index) => ({
-//             ...obj,
-//             [item]: index
-// }), {})
-//     return data.sort((a, b) => sortByObject[a[sortField]] - sortByObject[b[sortField]])
-// }
-//

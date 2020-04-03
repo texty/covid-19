@@ -308,13 +308,14 @@ path.region {
   padding-bottom: 1px; }
 
 #charts {
-  margin: 100px auto auto auto; }
+  margin: auto; }
   @media (max-width: 900px) {
     #charts {
       display: block; } }
 
 #growth_speed {
-  width: 700px; }
+  width: 700px;
+  margin: auto; }
   @media (max-width: 900px) {
     #growth_speed {
       width: 100%; } }

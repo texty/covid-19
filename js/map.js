@@ -43,7 +43,7 @@ Promise.all([
     const create_choropl_map = function(container, column, colorScale, tip) {
         colorScale.domain([0, d3.max(files[4], function(d){ return d[column] }) ]);
 
-        var main_map  = d3.select(container)
+        let map = d3.select(container)
             .append('svg')
             .attr("id", "map")
             .attr("viewBox", "0 0 1200 800")
@@ -51,7 +51,7 @@ Promise.all([
             .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
 
-        main_map.selectAll("path")
+        map.selectAll("path")
             .data(files[0].features)
             .enter()
             .append("path")
@@ -109,12 +109,12 @@ Promise.all([
 
         colorScale.domain([0, d3.max(hexbin(df), function(d){ return d.length })]);
 
-        var svg = d3.select(container)
+        let svg = d3.select(container)
             .append('svg')
             .attr("id", "map")
             .attr("viewBox", "0 0 1200 800");
 
-        var map = svg.append("g")
+        let map = svg.append("g")
             .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
         map.selectAll("path")

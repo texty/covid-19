@@ -168,7 +168,7 @@ path.region {
 
 //line chart
 #charts {
-  margin: 100px auto auto auto;
+  margin: auto;
   //display: grid;
   //grid-template-columns: 700px 1fr;
   @media(max-width: 900px){
@@ -178,6 +178,7 @@ path.region {
 
 #growth_speed {
   width: 700px;
+  margin: auto;
   @media(max-width: 900px){
     width: 100%;
   }
