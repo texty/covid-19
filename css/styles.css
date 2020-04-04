@@ -230,7 +230,7 @@ main {
   main h1 {
     width: 60%;
     margin: 50px auto 20px auto;
-    font-size: calc(30px + 3vw); }
+    font-size: calc(28px + 3vw); }
     @media (max-width: 800px) {
       main h1 {
         width: 90%;
