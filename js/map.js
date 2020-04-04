@@ -30,7 +30,9 @@ Promise.all([
     d3.csv("data/ukraine/cases_by_region.csv")
 ]).then(function(files) {
 
-    var myTotal = 0;  
+    var totalConfirmed = 0;
+    var totalSuspected = 0;
+    var totalDeaths = 0;
 
     var regions = [];
     files[4].forEach(function (d, i) {
@@ -39,11 +41,15 @@ Promise.all([
         d.deaths = +d.deaths;
         d.region = d.region.replace("м. Київ", "Київ");
         regions.push(d.region);
-        myTotal += d.confirmed;
+        totalConfirmed += d.confirmed;
+        totalSuspected += d.suspected;
+        totalDeaths += d.deaths;
     });
 
-    console.log(myTotal);
-    d3.select("#confirmed_amount_").html(myTotal);
+    console.log(totalConfirmed);
+    d3.select("#confirmed_amount").html(totalConfirmed);
+    d3.select("#suspected_amount").html(totalSuspected);
+    d3.select("#deaths_amount").html(totalDeaths);
 
     // map by region
     const create_choropl_map = function(container, column, colorScale, tip) {
@@ -110,8 +116,8 @@ Promise.all([
             return a + b[colname];
         }, 0);
 
-        d3.select("#"+colname+"_amount")
-            .text(total_cases);
+        // d3.select("#"+colname+"_amount")
+        //     .text(total_cases);
 
         colorScale.domain([0, d3.max(hexbin(df), function(d){ return d.length })]);
 
