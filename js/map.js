@@ -30,14 +30,20 @@ Promise.all([
     d3.csv("data/ukraine/cases_by_region.csv")
 ]).then(function(files) {
 
+    var myTotal = 0;  
+
     var regions = [];
     files[4].forEach(function (d, i) {
         d.confirmed = +d.confirmed;
         d.suspected = +d.suspected;
         d.deaths = +d.deaths;
         d.region = d.region.replace("м. Київ", "Київ");
-        regions.push(d.region)
+        regions.push(d.region);
+        myTotal += d.confirmed;
     });
+
+    console.log(myTotal);
+    d3.select("#confirmed_amount_").html(myTotal);
 
     // map by region
     const create_choropl_map = function(container, column, colorScale, tip) {

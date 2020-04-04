@@ -21,12 +21,8 @@ Promise.all([
     //остання наявна в даних дата
     const formatTime = d3.timeFormat("%d/%m");
     const max_date = d3.max(multiples_data, function(d){ return d3.timeParse("%m/%d/%y")(d.date); });
-    d3.select("#today").html(formatTime(max_date));
-
-    const ukraine_last = multiples_data.filter(function(d) {
-        return d.country === "Ukraine" && d3.timeParse("%m/%d/%y")(d.date).getTime() === max_date.getTime()});
-
-   d3.select("#confirmed_amount_hopkins").html(ukraine_last[0].cases);
+    d3.select("#today").html(formatTime(max_date));  
+ 
 
    var max_cases = d3.max(multiples_data, function(d){ return d.cases; });
        max_cases = Math.ceil (max_cases / 25000) * 25000;
