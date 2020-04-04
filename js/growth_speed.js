@@ -2,7 +2,7 @@ Promise.all([
     d3.csv("data/ukraine/cases_by_date.csv"),
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 ]).then(function(files) {
-    const margin = {top: 50, left: 50, bottom: 50, right: 50};
+    const margin = {top: 50, left: 60, bottom: 50, right: 50};
     const height = 350;
 
     const parseDate = d3.timeParse("%Y-%m-%d");
