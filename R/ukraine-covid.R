@@ -9,7 +9,7 @@ library('xlsx')
 library("readxl")
 
 setwd('/home/yevheniia/git/2020_YEAR/covid-19/data/source-data/ukraine/')
-xlsx_ <- read_excel("monitoring_v4_2020-04-03.xlsx", sheet=1, col_names = TRUE,col_types=NULL, na="") %>% 
+xlsx_ <- read_excel("monitoring_v4_2020-04-04.xlsx", sheet=1, col_names = TRUE,col_types=NULL, na="") %>% 
   rename(date =`Звітна дата`) %>% 
   rename(region = `Область`) %>% 
   rename(district = `Район`) %>% 
@@ -29,7 +29,7 @@ xlsx_ <- read_excel("monitoring_v4_2020-04-03.xlsx", sheet=1, col_names = TRUE,c
   mutate(date = as.Date(date, format="%Y-%m-%d"))
 
 # датасет з Табло
-data1 = read.csv("Загальне_data.csv", stringsAsFactors = F) %>% 
+data1 = read.csv("Загальне_data_.csv", stringsAsFactors = F) %>% 
   rename(recovered = Кількість.випадків.одужання.серед.осіб.із.підтвердженим.діагнозом.COVID.19.протягом.звітного.періоду) %>% 
   rename(confirmed = Кількість.осіб..діагноз.COVID.19.яких.підтвердився.протягом.звітного.періоду) %>% 
   rename(suspected = Кількість.осіб.із.підозрою.на.зараження.коронавірусом.SARS.CoV.2..2019.nCoV...випадки.яких.зафіксовано.протягом.звітного.період) %>% 
@@ -41,7 +41,7 @@ data1 = read.csv("Загальне_data.csv", stringsAsFactors = F) %>%
   mutate(date = as.Date(date, format="%m/%d/%Y"))
 
 # датасет з координатами лікарень
-data2 = read.csv("Карта_data.csv", stringsAsFactors = F) %>% 
+data2 = read.csv("Карта_data_.csv", stringsAsFactors = F) %>% 
   rename(recovered = Кількість.випадків.одужання.серед.осіб.із.підтвердженим.діагнозом.COVID.19.протягом.звітного.періоду) %>% 
   rename(confirmed = Кількість.осіб.із.підтвердженим.діагнозом.COVID.19..спричиненим.коронавірусом.SARS.CoV.2..2019.nCoV...які.перебувають.на.лікува) %>% 
   rename(waiting = Кількість.осіб.з.підозрою.на.зараження.коронавірусом.SARS.CoV.2..2019.nCoV...випадки.яких.очікують.лабораторного.підтвердження) %>% 
@@ -56,11 +56,15 @@ data2 = read.csv("Карта_data.csv", stringsAsFactors = F) %>%
 # координати областей для самоізольованих
 selfizo_coords = read.csv("selfizo.csv", stringsAsFactors = F)
 
+h1 = xlsx_ %>%  select(hospital_id) %>% unique()
+h2 = data2 %>%  select(hospital_id) %>% unique()
+
 # перелік лікарень (унікальні значення)
 hospitals = data2 %>% 
   select(hospital_id, hospital_name, lat, lon, address) %>% 
   filter(hospital_id != "самоізоляція") %>%  
-  unique()
+  unique() %>% 
+  mutate(hospital_id = as.character(hospital_id))
 
 # остання дата в датасеті
 max_date = max(data1$date)
@@ -123,11 +127,11 @@ split_dataset = function(df, var){
   return(data)
 }
 
-confirmed = split_dataset(xlsx_, "confirmed")
-suspected = split_dataset(xlsx_, "suspected")
-deaths = split_dataset(xlsx_, "deaths")
-by_region = get_data_by_region(xlsx_)
-by_date = get_data_by_date(xlsx_)
+confirmed = split_dataset(data1, "confirmed")
+suspected = split_dataset(data1, "suspected")
+deaths = split_dataset(data1, "deaths")
+by_region = get_data_by_region(data1)
+by_date = get_data_by_date(data1)
 
 setwd("/home/yevheniia/git/2020_YEAR/covid-19/data/ukraine/")
 write.csv(by_date, "cases_by_date.csv", row.names = F)
@@ -138,6 +142,7 @@ write.csv(deaths, "death_cases.csv", row.names = F)
 
 
 
-
+test = xlsx_ %>% 
+  filter(region == "Одеська")
 
 
