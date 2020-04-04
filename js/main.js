@@ -28,6 +28,9 @@ Promise.all([
 
    d3.select("#confirmed_amount_hopkins").html(ukraine_last[0].cases);
 
+   var max_cases = d3.max(multiples_data, function(d){ return d.cases; });
+       max_cases = Math.ceil (max_cases / 25000) * 25000;
+
     // append index to the each next day after first death
     var country = "";
     var index = 1;
@@ -63,7 +66,7 @@ Promise.all([
     window.addEventListener("resize", set_size);
 
     const yScale = d3.scaleSymlog()
-        .domain([0, d3.max(multiples_data, function(d){ return d.cases; })])
+        .domain([0, max_cases])
         .range([150, 0]);
 
     var xScale = d3.scaleLinear()
@@ -99,7 +102,8 @@ Promise.all([
         .attr("class", "x axis")
         .attr("transform", "translate(0," + 150 + ")")
         .call(d3.axisBottom(xScale)
-            .tickValues([10, 20, 30, 40, 50, 60])
+            .ticks(5)
+            .tickValues([10, 20, 30, 40, 50, 60, 70])
         ); 
 
 
@@ -107,7 +111,7 @@ Promise.all([
         .attr("class", "y axis")
         .call(d3.axisLeft(yScale)
             .ticks(5)
-            .tickValues([0, 10, 100, 1000, 10000, 100000])
+            .tickValues([0, 10, 100, 1000, 10000, 50000, max_cases])
             .tickSize(-150)
         );
 
