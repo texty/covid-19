@@ -131,7 +131,7 @@ by_date = get_data_by_date(xlsx_)
 
 setwd("/home/yevheniia/git/2020_YEAR/covid-19/data/ukraine/")
 write.csv(by_date, "cases_by_date.csv", row.names = F)
-write.csv(by_region, "cases_by_regions.csv", row.names = F)
+write.csv(by_region, "cases_by_region.csv", row.names = F)
 write.csv(confirmed, "confirmed_cases.csv", row.names = F)
 write.csv(suspected, "suspected_cases.csv", row.names = F)
 write.csv(deaths, "death_cases.csv", row.names = F)

@@ -16,10 +16,17 @@ Promise.all([
     var multiples_data = leftJoin(cases, deaths, "country", "country", "deaths")
         .filter(function(d){ return d.deaths > 0  });
 
+    // var multiples_data = cases.filter(function(d){ return d.cases > 10  });
+
     //остання наявна в даних дата
-    const formatTime = d3.timeFormat("%d-%m-%Y");
+    const formatTime = d3.timeFormat("%d/%m");
     const max_date = d3.max(multiples_data, function(d){ return d3.timeParse("%m/%d/%y")(d.date); });
     d3.select("#today").html(formatTime(max_date));
+
+    const ukraine_last = multiples_data.filter(function(d) {
+        return d.country === "Ukraine" && d3.timeParse("%m/%d/%y")(d.date).getTime() === max_date.getTime()});
+
+   d3.select("#confirmed_amount_hopkins").html(ukraine_last[0].cases);
 
     // append index to the each next day after first death
     var country = "";
@@ -132,6 +139,10 @@ Promise.all([
                 var cur = d3.select(this.parentNode).attr("data");
                 return cur === key? 3 : 1
             })
+            .style("opacity", function(){
+                var cur = d3.select(this.parentNode).attr("data");
+                return cur === key? 1 : 0.5
+            })
             .attr("d", line);
 
 
@@ -149,7 +160,8 @@ Promise.all([
             })
             .text(function(d,i){
                 var cur = d3.select(this.parentNode).attr("data");
-                return cur === key ? d[d.length - 1].cases : ""
+                return cur === key ? d[d.length - 1].cases : "";
+
             })
             .style("font-size", "16px");
     }  
