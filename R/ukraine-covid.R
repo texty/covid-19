@@ -29,7 +29,7 @@ xlsx_ <- read_excel("monitoring_v4_2020-04-04.xlsx", sheet=1, col_names = TRUE,c
   mutate(date = as.Date(date, format="%Y-%m-%d"))
 
 # датасет з Табло
-data1 = read.csv("Загальне_data.csv", stringsAsFactors = F) %>% 
+data1 = read.csv("Загальне_data_.csv", stringsAsFactors = F) %>% 
   rename(recovered = Кількість.випадків.одужання.серед.осіб.із.підтвердженим.діагнозом.COVID.19.протягом.звітного.періоду) %>% 
   rename(confirmed = Кількість.осіб..діагноз.COVID.19.яких.підтвердився.протягом.звітного.періоду) %>% 
   rename(suspected = Кількість.осіб.із.підозрою.на.зараження.коронавірусом.SARS.CoV.2..2019.nCoV...випадки.яких.зафіксовано.протягом.звітного.період) %>% 
@@ -41,7 +41,7 @@ data1 = read.csv("Загальне_data.csv", stringsAsFactors = F) %>%
   mutate(date = as.Date(date, format="%m/%d/%Y"))
 
 # датасет з координатами лікарень
-data2 = read.csv("Карта_data.csv", stringsAsFactors = F, colClasses=c("Код.ЄДРПОУ.закладу.охорони.здоров.я"="character")) %>% 
+data2 = read.csv("Карта_data_.csv", stringsAsFactors = F, colClasses=c("Код.ЄДРПОУ.закладу.охорони.здоров.я"="character")) %>% 
   rename(recovered = Кількість.випадків.одужання.серед.осіб.із.підтвердженим.діагнозом.COVID.19.протягом.звітного.періоду) %>% 
   rename(confirmed = Кількість.осіб.із.підтвердженим.діагнозом.COVID.19..спричиненим.коронавірусом.SARS.CoV.2..2019.nCoV...які.перебувають.на.лікува) %>% 
   rename(waiting = Кількість.осіб.з.підозрою.на.зараження.коронавірусом.SARS.CoV.2..2019.nCoV...випадки.яких.очікують.лабораторного.підтвердження) %>% 
@@ -139,10 +139,5 @@ write.csv(by_region, "cases_by_region.csv", row.names = F)
 write.csv(confirmed, "confirmed_cases.csv", row.names = F)
 write.csv(suspected, "suspected_cases.csv", row.names = F)
 write.csv(deaths, "death_cases.csv", row.names = F)
-
-
-
-test = xlsx_ %>% 
-  filter(region == "Одеська")
 
 

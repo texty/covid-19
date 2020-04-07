@@ -48,7 +48,7 @@ Promise.all([
     nested.sort( function(a, b) { return  sortArray.indexOf(b.key) - sortArray.indexOf(a.key)});
 
     drawSpeedChart();
-    window.addEventListener("resize", drawSpeedChart)
+    window.addEventListener("resize", drawSpeedChart);
 
     function drawSpeedChart() {
         d3.select("#growth_speed svg").remove();
@@ -225,9 +225,9 @@ Promise.all([
                                 return colorCountry(d.key)
                             })
                             .attr("transform", function (d) {
-                                if (d.key === "Ukraine") {
+                                if (d.key === "Poland") {
                                     return "translate(" + 10 + "," + -(10) + ")"
-                                } else if (d.key === "Poland") {
+                                } else if (d.key === "Ukraine") {
                                     return "translate(" + 10 + "," + 10 + ")"
                                 } else {
                                     return "translate(" + 10 + "," + 0 + ")";
