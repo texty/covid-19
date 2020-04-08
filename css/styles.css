@@ -313,35 +313,35 @@ path.region {
     #charts {
       display: block; } }
 
-#growth_speed {
+#growth_speed, #growth_speed_per_day {
   width: 700px;
   margin: auto; }
   @media (max-width: 900px) {
-    #growth_speed {
+    #growth_speed, #growth_speed_per_day {
       width: 100%; } }
-  #growth_speed p {
+  #growth_speed p, #growth_speed_per_day p {
     margin: auto; }
-  #growth_speed .y.axis line {
+  #growth_speed .y.axis line, #growth_speed_per_day .y.axis line {
     fill: none;
     stroke: #ccc;
     shape-rendering: crispEdges;
     stroke-width: 1px; }
-  #growth_speed .x.axis line {
+  #growth_speed .x.axis line, #growth_speed_per_day .x.axis line {
     display: none; }
-  #growth_speed .axis text {
+  #growth_speed .axis text, #growth_speed_per_day .axis text {
     font-family: 'Proxima-Nova', sans-serif;
     font-size: 13px;
     pointer-events: none;
     fill: #7e7e7e; }
-  #growth_speed .y.axis text {
+  #growth_speed .y.axis text, #growth_speed_per_day .y.axis text {
     text-anchor: end !important;
     fill: #7e7e7e; }
-  #growth_speed .domain {
+  #growth_speed .domain, #growth_speed_per_day .domain {
     display: none; }
-  #growth_speed .line-interactive {
+  #growth_speed .line-interactive, #growth_speed_per_day .line-interactive {
     stroke-width: 3px;
     fill: none; }
-  #growth_speed .model-line {
+  #growth_speed .model-line, #growth_speed_per_day .model-line {
     stroke-dasharray: 2px 3px;
     stroke-width: 1px;
     stroke: grey;

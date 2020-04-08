@@ -21,10 +21,10 @@ Promise.all([
     //остання наявна в даних дата
     const formatTime = d3.timeFormat("%d/%m");
     const max_date = d3.max(multiples_data, function(d){ return d3.timeParse("%m/%d/%y")(d.date); });
-    d3.select("#today").html(formatTime(max_date));  
+    d3.selectAll(".today").html(formatTime(max_date));
  
 
-   var max_cases = d3.max(multiples_data, function(d){ return d.cases; });
+    var max_cases = d3.max(multiples_data, function(d){ return d.cases; });
        max_cases = Math.ceil (max_cases / 25000) * 25000;
 
     // append index to the each next day after first death

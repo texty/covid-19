@@ -177,9 +177,12 @@ path.region {
   @media(max-width: 900px){
     display: block;
   }
+
+
+
 }
 
-#growth_speed {
+#growth_speed, #growth_speed_per_day {
   width: 700px;
   margin: auto;
   @media(max-width: 900px){
