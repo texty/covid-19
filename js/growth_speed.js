@@ -13,11 +13,14 @@ Promise.all([
     const sortArray = ["Ukraine", "Turkey", "Poland", "Spain"];
     const translatedArray = ["Україна", "Туреччина", "Польща", "Іспанія"];
 
-    const colorCountry = d3.scaleOrdinal()
-        .domain(["Ukraine", "Turkey", "Poland", "Spain"])
-        .range(["red", "#333", "blue", "green"]);
+    // const sortArray = ["Sweden", "Ukraine"];
+    // const translatedArray = ["Швеція", "Україна"];
 
-    const input = files[1].filter(function(d) { return ["Ukraine", "Turkey", "Poland", "Spain"].includes(d["Country/Region"]) });
+    const colorCountry = d3.scaleOrdinal()
+        .domain(["Ukraine", "Turkey", "Poland", "Spain", "Sweden"])
+        .range(["red", "#333", "blue", "green", "blue"]);
+
+    const input = files[1].filter(function(d) { return sortArray.includes(d["Country/Region"]) });
     const ukraine_growth_data = reshape(input,"cases").filter(function(d){ return d.cases > 10  });
 
     // append index to the each next day after first death
@@ -94,6 +97,7 @@ Promise.all([
             .attr("class", "y axis")
             .call(d3.axisLeft(yScale)
                 .tickSize(-width)
+                // .tickValues([10, 100, 1000, 5000, 10000]));
                 .tickValues([10, 100, 1000, 10000, 25000, 50000, max_cases]));
 
 
