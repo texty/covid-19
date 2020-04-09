@@ -24,7 +24,7 @@
   font-weight: 600;
   font-style: normal; }
 header {
-  min-height: 2em;
+  height: 40px;
   width: 100%;
   background-color: white;
   display: flex;
