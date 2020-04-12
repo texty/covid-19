@@ -3,11 +3,9 @@ library("tidyr")
 library('xlsx')
 library("readxl")
 
-# test = read.csv("https://public.tableau.com/vizql/w/monitor_15841091301660/v/sheet0/vud/sessions/EC53EB839BE64DF29F5F2938D716B3FB-0:0/views/7294020847002097674_2837170078324805029?csv=true")
-
 setwd('/home/yevheniia/git/2020_YEAR/covid-19/data/source-data/ukraine/')
 selfizo_coords = read.csv("selfizo.csv", stringsAsFactors = F)
-
+# colClasses=c("edrpou_hosp"="character")
 setwd('/home/yevheniia/Desktop/')
 # датасет з Табло
 data1 = read.csv("Загальне_data.csv", stringsAsFactors = F, colClasses=c("edrpou_hosp"="character")) %>% 
@@ -71,7 +69,7 @@ get_data_by_date = function(df){
 
 split_dataset = function(df, var){
   selfizolation = df %>%
-    filter(hospital_id == "Самоізоляція") %>%
+    filter(hospital_id == "") %>%
     left_join(selfizo_coords, by = "region") %>%
     filter(!!(as.name(var)) > 0)
   
@@ -87,7 +85,7 @@ split_dataset = function(df, var){
   
   data = df %>% 
     select(date, hospital_id, !!var, region) %>%
-    filter(hospital_id != "Самоізоляція") %>% 
+    filter(hospital_id != "") %>% 
     left_join(hospitals, by="hospital_id") %>% 
     filter(!!(as.name(var)) > 0) %>% 
     group_by(date, hospital_id, hospital_name, region, lat, lon, !!(as.name(var))) %>% 
