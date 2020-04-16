@@ -69,7 +69,7 @@ get_data_by_date = function(df){
 
 split_dataset = function(df, var){
   selfizolation = df %>%
-    filter(hospital_id == "") %>%
+    filter(hospital_id == "Самоізоляція") %>%
     left_join(selfizo_coords, by = "region") %>%
     filter(!!(as.name(var)) > 0)
   
@@ -85,7 +85,7 @@ split_dataset = function(df, var){
   
   data = df %>% 
     select(date, hospital_id, !!var, region) %>%
-    filter(hospital_id != "") %>% 
+    filter(hospital_id != "Самоізоляція") %>% 
     left_join(hospitals, by="hospital_id") %>% 
     filter(!!(as.name(var)) > 0) %>% 
     group_by(date, hospital_id, hospital_name, region, lat, lon, !!(as.name(var))) %>% 
