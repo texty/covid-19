@@ -192,29 +192,3 @@ ggplot(new, aes(y = lg, x = date)) +
   
   
   #################################################################################### 
-  
-    selfizolation = data1 %>%
-      filter(hospital_id == "Самоізоляція") %>%
-      left_join(selfizo_coords, by = "region") %>%
-      filter(confirmed > 0) %>% 
-      select(1,2,6:9) %>% 
-      uncount(confirmed) %>% 
-      mutate(confirmed = 1) %>%
-      mutate(hospital_name = "") %>%
-      select(date, hospital_id, hospital_name, region, lat, lon, confirmed)
-
-    data = data1 %>% 
-      select(date, hospital_id, confirmed, region) %>%
-      filter(hospital_id != "Самоізоляція") %>% 
-      left_join(hospitals, by="hospital_id") %>% 
-      filter(confirmed > 0) %>% 
-      uncount(confirmed) %>% 
-      mutate(confirmed = 1) %>% 
-      select(date, hospital_id, hospital_name, region, lat, lon, confirmed)
-   
-      data = data %>%  bind_rows(selfizolation) 
-   
-    
-      
-     
-  
