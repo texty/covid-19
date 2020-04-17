@@ -47,7 +47,7 @@ Promise.all([
     var columns;
 
     const set_size = function(){
-        console.log("stop do it!");
+        //console.log("stop do it!");
         width = d3.select("#chart_wrapper").node().getBoundingClientRect().width;
         columns = Math.floor(width/250);
         if(width > 800) {

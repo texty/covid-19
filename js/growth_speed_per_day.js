@@ -9,7 +9,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
 
     var input = data.filter(function(d) { return sortArray.includes(d["Country/Region"]) });
     input = reshape(input,"cases").filter(function(d){ return d.cases > 6  });
-    console.log(input);
+    //console.log(input);
 
     // append index to the each next day after first death
     var country = "";
