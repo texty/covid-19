@@ -99,7 +99,7 @@ Promise.all([
         .attr("transform", "translate(0," + 150 + ")")
         .call(d3.axisBottom(xScale)
             .ticks(5)
-            .tickValues([10, 20, 30, 40, 50, 60, 70])
+            .tickValues([10, 30, 50, 70, 90])
         ); 
 
 
