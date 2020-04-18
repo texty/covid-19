@@ -266,16 +266,17 @@ Promise.all([
                 .attr("x", function (d) {
                     return xScale(d.index)
                 })
-                .attr("y", function (d) {
-                    return yScale(d.cases)
+                .attr("y", function (d, i) {
+                    return yScale(d.cases) + (i * 1)
                 })
                 .text(function (d, i) {
-                    return i === calculate_model(x0, n).length - n ? "подвоєння - " + n + " дн." : null;
+                    //return i === calculate_model(x0, n).length - n ? "подв. - " + n + " дн." : null;
+                    return i === calculate_model(x0, n).length - n ? "подв. - " + n + " дн." : null;
                 })
                 .style("fill", "grey")
                 .style("font-size", "14px")
                 .attr("text-anchor", function (d, i) {
-                    return n == 1 ? "end" : "middle"
+                    return n == 1 ? "end" : "end"
                 });
         });
     }
