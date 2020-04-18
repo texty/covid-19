@@ -55,6 +55,8 @@ Promise.all([
     const create_choropl_map = function(container, column, colorScale, tip) {
         colorScale.domain([0, d3.max(files[4], function(d){ return d[column] }) ]);
 
+        console.log(colorScale.domain);
+
         let map = d3.select(container)
             .append('svg')
             .attr("id", "map")
