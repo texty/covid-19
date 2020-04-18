@@ -107,7 +107,7 @@ Promise.all([
         .attr("class", "y axis")
         .call(d3.axisLeft(yScale)
             .ticks(5)
-            .tickValues([0, 10, 100, 1000, 10000, 50000, max_cases])
+            .tickValues([0, 10, 100, 1000, 10000, 100000, max_cases])
             .tickSize(-150)
         );
 
