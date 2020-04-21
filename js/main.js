@@ -1,7 +1,7 @@
 const target_countries = ["Ukraine", "US", "Spain", "Italy", "Germany", "United Kingdom", "Brazil", "Netherlands", "Russia", "Austria", "Bulgaria", "Canada", "France",
     "Iran", "Israel", "Turkey", "Poland", "Moldova", "Portugal", "Sweden"];
 
-const translated_countries = ["Україна", "США", "Іспанія", "Італія", "Німеччина", "Великобританія", "Бразилія", "Нідерданди", "Росія", "Австрія", "Болгарія", "Канада",  "Франція",
+const translated_countries = ["Україна", "США", "Іспанія", "Італія", "Німеччина", "Великобританія", "Бразилія", "Нідерланди", "Росія", "Австрія", "Болгарія", "Канада",  "Франція",
     "Іран", "Ізраїль", "Туреччина", "Польща", "Молдова", "Португалія", "Швеція"];
 
 Promise.all([
