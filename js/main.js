@@ -1,8 +1,8 @@
 const target_countries = ["Ukraine", "US", "Spain", "Italy", "Germany", "United Kingdom", "Brazil", "Netherlands", "Russia", "Austria", "Bulgaria", "Canada", "France",
-    "Iran", "Israel", "Turkey", "Poland", "Moldova", "Portugal", "Sweden"];
+    "Iran", "Israel", "Turkey", "Poland", "China", "Portugal", "Sweden"];
 
 const translated_countries = ["Україна", "США", "Іспанія", "Італія", "Німеччина", "Великобританія", "Бразилія", "Нідерланди", "Росія", "Австрія", "Болгарія", "Канада",  "Франція",
-    "Іран", "Ізраїль", "Туреччина", "Польща", "Молдова", "Португалія", "Швеція"];
+    "Іран", "Ізраїль", "Туреччина", "Польща", "Китай", "Португалія", "Швеція"];
 
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
