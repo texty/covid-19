@@ -1,7 +1,6 @@
 d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv").then(function(data) {
      const margin = {top: 20, left: 60, bottom: 50, right: 50};
      const height = 350;
-
      const parseDate = d3.timeParse("%m/%d/%Y");
      const formatDate = d3.timeFormat("%d/%m");
 
@@ -34,17 +33,32 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
 
     var start_cases_value = input.filter(function(d){ return d.date.getTime() ===  min_date.getTime()})[0].cases;
 
-log(2)*date_diff/(log(cases) - log(min(cases)) ), # старий, неправильний спосіб
-log(2)/(log(cases)-log(lag(cases)) ), # новий (коректний) спосіб
+// log(2)/(log(cases)-log(lag(cases)) ), # новий (коректний) спосіб
+
+    // input.forEach(function (d, i) {
+    //     if(i > 0){
+    //         console.log(d);
+    //         console.log(d.cases);
+    //         console.log(input[i].cases);
+    //         console.log(input[i-1].cases);
+    //     }
+    //
+    // });
 
     input.forEach(function (d, i) {
-         d.log = Math.log(2) * d.index/Math.log(d.cases / start_cases_value);
-         d.log = Math.log(2)/Math.log(d.cases) - Math.log()
-         d.log = d.log.toFixed(1);
-         d.log = +d.log;
+        if(i > 0) {
+            //d.log = Math.log(2) * d.index/Math.log(d.cases / start_cases_value);
+            d.log = Math.log(2) / (Math.log(d.cases) - Math.log(input[i - 1].cases));
+            d.log = d.log.toFixed(1);
+            d.log = +d.log;
+        } else {
+            d.log = "Infinity"
+        }
     });
 
-    input = input.filter(function(d){ return d.log != "Infinity"});
+    // console.table(input);
+
+    input = input.filter(function(d){ return d.log != "Infinity"}).filter(function(d){ return d.log < 80});
 
     const max_value = d3.max(input, function (d) { return d.log  });
 
@@ -112,6 +126,7 @@ log(2)/(log(cases)-log(lag(cases)) ), # новий (коректний) спос
     const wrapper = svg.append("g")
         .attr("transform", "translate(0," + 0 + ")");
 
+
     var glines = wrapper.selectAll('.log-line')
         .data(nested).enter()
         .append('g')
@@ -126,8 +141,41 @@ log(2)/(log(cases)-log(lag(cases)) ), # новий (коректний) спос
         })
         .style('stroke', "red")
         .style('fill', "none")
-        .style('stroke-width', "3px");
+        .style('stroke-width', "3px")
+        .style('stroke-opacity', "0.5");
+
+
+    nested.forEach(function(d){
+         d.values.forEach(function(t) {
+             glines
+                 .append("circle")
+                 .attr("class", "tip")
+                 .attr("fill", "red")
+                 .attr("stroke", "none")
+                 .attr("cx", xScale(t.date))
+                 .attr("cy", yScale(t.log))
+                 .attr("r", 5)
+                 .attr("data-tippy-content", function () {
+                     return formatDate(t.date) + ": " + t.log
+
+                 })
+                 .style('opacity', "0.8")
+         })
+    });
+
+        tippy('.tip', {
+            arrow: false,
+            arrowType: 'round',
+            size: 'big',
+            allowHTML: true
+        });
+
+
+
+
     }
+
+
 
 
 });
