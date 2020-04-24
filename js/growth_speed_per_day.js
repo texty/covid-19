@@ -34,8 +34,12 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
 
     var start_cases_value = input.filter(function(d){ return d.date.getTime() ===  min_date.getTime()})[0].cases;
 
+log(2)*date_diff/(log(cases) - log(min(cases)) ), # старий, неправильний спосіб
+log(2)/(log(cases)-log(lag(cases)) ), # новий (коректний) спосіб
+
     input.forEach(function (d, i) {
          d.log = Math.log(2) * d.index/Math.log(d.cases / start_cases_value);
+         d.log = Math.log(2)/Math.log(d.cases) - Math.log()
          d.log = d.log.toFixed(1);
          d.log = +d.log;
     });
