@@ -156,7 +156,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
                  .attr("cy", yScale(t.log))
                  .attr("r", 5)
                  .attr("data-tippy-content", function () {
-                     return formatDate(t.date) + ": " + t.log
+                     return "станом на " + formatDate(t.date) + ": коефіцієнт <br> подвоєння складає " + t.log + " дн."
 
                  })
                  .style('opacity', "0.8")
