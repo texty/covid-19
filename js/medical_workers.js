@@ -5,8 +5,6 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
     const parseDate = d3.timeParse("%Y-%m-%d");
 
 
-    const sortarray = [];
-
     const min_date = d3.min(medical, function(d){ return parseDate(d.zvit_date)});
     const max_date = d3.max(medical, function(d){ return parseDate(d.zvit_date)});
 
@@ -30,8 +28,7 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
         .entries(medical);
 
 
-    nested.sort(function(a,b) { return b.values[1].medical_total - a.values[1].medical_total});
-
+    // nested.sort(function(a,b) { return b.values[1].medical_total - a.values[1].medical_total});
 
     const yScale = d3.scaleLinear()
         .range([chartInnerHeight, 0]);
@@ -41,8 +38,8 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
         .range([0, chartInnerWidth]);
 
 
-    var width = d3.select("#medical").node().getBoundingClientRect().width;
-    var columns = Math.floor(width/chartOuterWidth);
+    const width = d3.select("#medical").node().getBoundingClientRect().width;
+    const columns = Math.floor(width/chartOuterWidth);
     const height = nested.length / columns * chartOuterHeight;
 
     const chart_container = d3.select("#medical");
@@ -50,7 +47,7 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
     const svg = chart_container.selectAll("svg")
         .data(nested)
         .enter()
-        .append("svg")
+        .insert("svg", ".source")
         .attr("width", chartOuterWidth)
         .attr("height", chartOuterHeight)
         .attr("class", "multiple");
@@ -79,7 +76,6 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
         .style("font-weight", "bold");
 
 
-
     var line = multiple
         .append("path")
         .attr("class", "med-line")
@@ -89,6 +85,7 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
 
 
    drawMedical("medical_percent", "percent_total", "%");
+
 
    d3.select("#medical_percent").on("click", function(){
        d3.select("#medical_percent").classed("med-covid-active", true);
