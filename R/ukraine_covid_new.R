@@ -105,19 +105,20 @@ is_medical_by_date = function(){
     mutate(medical_comsum = cumsum(is_medical)) %>% 
     mutate(medical_percent = medical_comsum/(confirm_cumsum/100)) %>% 
     mutate(medical_total = sum(is_medical)) %>% 
+    mutate(confirm_total = sum(new_confirm)) %>% 
+    mutate(percent_total = medical_total/(confirm_total/100)) %>% 
     # select(zvit_date, priority_hosp_area, new_confirm, is_medical, confirm_cumsum, medical_comsum, medical_percent)
-    select(zvit_date, priority_hosp_area, is_medical, medical_comsum, medical_percent, medical_total)
+    select(zvit_date, priority_hosp_area, is_medical, medical_comsum, medical_percent, medical_total, percent_total)
   
   
   return(total)
 }
-
+medical = is_medical_by_date()
 confirmed = split_dataset(nszy, "new_confirm")
 suspected = split_dataset(nszy, "new_susp")
 deaths = split_dataset(nszy, "new_death")
 by_region = get_data_by_region(nszy)
 by_date = get_data_by_date(nszy)
-medical = is_medical_by_date()
 
 setwd("/home/yevheniia/git/2020_YEAR/covid-19/data/ukraine/")
 write.csv(by_date, "cases_by_date.csv", row.names = F)

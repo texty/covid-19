@@ -7,6 +7,8 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
 
     const min_date = d3.min(medical, function(d){ return parseDate(d.zvit_date)});
     const max_date = d3.max(medical, function(d){ return parseDate(d.zvit_date)});
+    const formatDate = d3.timeFormat("%d/%m");
+    d3.selectAll(".current-date").text(formatDate(max_date));
 
     medical.forEach(function(d){
         d.zvit_date = parseDate(d.zvit_date);

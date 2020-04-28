@@ -1,14 +1,6 @@
-Promise.all([
-    d3.csv("data/ukraine/cases_by_date.csv"),
-    d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
-]).then(function(files) {
+ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv").then(function(files) {
     const margin = {top: 50, left: 60, bottom: 50, right: 50};
     const height = 350;
-
-    const parseDate = d3.timeParse("%Y-%m-%d");
-    const formatDate = d3.timeFormat("%d/%m");
-    const max_date = d3.max(files[0], function(d){ return parseDate(d.zvit_date)});
-    d3.selectAll(".current-date").text(formatDate(max_date));
 
     const sortArray = ["Ukraine", "Turkey", "Poland", "Spain"];
     const translatedArray = ["Україна", "Туреччина", "Польща", "Іспанія"];
@@ -20,7 +12,7 @@ Promise.all([
         .domain(["Ukraine", "Turkey", "Poland", "Spain", "Sweden"])
         .range(["red", "#333", "blue", "green", "blue"]);
 
-    const input = files[1].filter(function(d) { return sortArray.includes(d["Country/Region"]) });
+    const input = files.filter(function(d) { return sortArray.includes(d["Country/Region"]) });
     const ukraine_growth_data = reshape(input,"cases").filter(function(d){ return d.cases > 10  });
 
     // append index to the each next day after first death
@@ -42,7 +34,8 @@ Promise.all([
     const max_day = d3.max(ukraine_growth_data, function(d){ return d.index});
     var max_cases = d3.max(ukraine_growth_data, function(d){ return d.cases; });
         max_cases = Math.ceil (max_cases / 25000) * 25000;
-    const x0 = 10;
+
+     const x0 = 10;
 
     var nested = d3.nest()
         .key(function(d){ return d.country; })
@@ -51,6 +44,7 @@ Promise.all([
     nested.sort( function(a, b) { return  sortArray.indexOf(b.key) - sortArray.indexOf(a.key)});
 
     drawSpeedChart();
+
     window.addEventListener("resize", drawSpeedChart);
 
     function drawSpeedChart() {

@@ -355,11 +355,13 @@ path.region {
   font-size: 16px;
   margin-bottom: 100px !important; }
 
-#medical h3 {
+#medical-wrapper h3 {
   text-align: center;
   width: 80%;
   margin: 30px auto;
   line-height: 2; }
+#medical-wrapper #medical {
+  margin: auto; }
 
 .med-covid {
   border: 1px solid #cf1e25;

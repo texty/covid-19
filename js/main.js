@@ -51,9 +51,9 @@ Promise.all([
         width = d3.select("#chart_wrapper").node().getBoundingClientRect().width;
         columns = Math.floor(width/250);
         if(width > 800) {
-            d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3").style("width", columns * 250 + "px");
+            d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3, #medical").style("width", columns * 250 + "px");
         } else {
-            d3.selectAll("#chart").style("width", columns * 250 + "px");
+            d3.selectAll("#chart, #medical").style("width", columns * 250 + "px");
             d3.selectAll("#chart_wrapper p, #chart_wrapper h3").style("width", "100%");
         }
     };

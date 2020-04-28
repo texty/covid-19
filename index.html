@@ -70,7 +70,7 @@
 
    <main>
         <h1>Вірус: хворі в Україні та світі. Оновлюється</h1>
-        <h3 class="lead">Чим ефективніший карантин та інші заходи з протидії вірусу – такі як <a href="https://texty.org.ua/articles/100519/ukrayina-na-ostannomu-misci-u-sviti-po-kilkosti-testiv-na-koronavirus-ce-shlyah-do-katastrofy/" target="_blank">тестування</a>, відстеження всіх хворих та їх ізоляція, <a href="https://texty.org.ua/fragments/100572/chomu-maska-dlya-kozhnoho-ce-duzhe-vazhlyvo/" target="_blank">масове носіння масок</a> – тим повільніше поширюється захворювання. Порівняйте траєкторію зростання кількості хворих в Україні та в інших країнах. Оновлено: <span class="current-date"></span>.</h3>
+        <h3 class="lead">Чим ефективніший карантин та інші заходи з протидії вірусу – такі як <a href="https://texty.org.ua/articles/100519/ukrayina-na-ostannomu-misci-u-sviti-po-kilkosti-testiv-na-koronavirus-ce-shlyah-do-katastrofy/" target="_blank">тестування</a>, відстеження всіх хворих та їх ізоляція, <a href="https://texty.org.ua/fragments/100572/chomu-maska-dlya-kozhnoho-ce-duzhe-vazhlyvo/" target="_blank">масове носіння масок</a> – тим повільніше поширюється захворювання. Порівняйте траєкторію зростання кількості хворих в Україні та в інших країнах. Станом на: <span class="current-date"></span>.</h3>
 
 
 
@@ -81,7 +81,7 @@
        <p><a href="#nav-1">Швидкість зростання хворих на covid-19 в Україні</a></p>
        <p><a href="#chart_wrapper">Хворі в Україні та інших країнах (порівняння)</a></p>
        <p><a href="#maps">Кількість осіб з підозрою, хворих і померлих у Україні по регіонах та лікарнях</a></p>
-       <p style="margin-bottom: 50px;"><a href="#medical">Хворі на COVID-19 медики</a> <b>нове </b></p>
+       <p style="margin-bottom: 50px;"><a href="#medical">Хворі на COVID-19 медики</a> <b style="color:#ed6746;">нове! </b></p>
 
 
 
@@ -97,11 +97,11 @@
        <!--<p>Як видно з графіка, нахил лінії для України на останньому відрізку найбільше нагадує нахил, характерний для подвоєння щопʼять днів</p>-->
          <div id="charts">
              <div id="growth_speed">
-                 <p class="source">Дані: Johns Hopkins CSSE github.com/CSSEGISandData/COVID-19</p>
+                 <p class="source">Дані: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Johns Hopkins CSSE</a></p>
              </div>
              <div id="growth_speed_per_day">
                  <p>На графіку нижче показана швидкість подвоєння хворих в Україні по днях. Що вище лінія, то повільніше розповсюджується вірус, наприклад, значення на рівні 10 означає, що кількість хворих подвоюється кожні 10 днів.</p>
-                 <p class="source">Дані: Johns Hopkins CSSE github.com/CSSEGISandData/COVID-19</p>
+                 <p class="source">Дані: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Johns Hopkins CSSE</a></p>
              </div>
 
 
@@ -116,7 +116,7 @@
            <h3 class="">COVID-19. Кількість захворювань по днях, починаючи з першої смерті. Станом на <span class="today"></span>.</h3>
            <p class="">У багатьох країнах перша смерть зафіксована після приблизно сотні виявлених хворих. В Україні перша смерть сталася при дуже малій кількості виявлених хворих. Це, скоріше за все означає, що кількість проведених тестів була дуже малою.</p>
            <div class="" id="chart"></div>
-           <p class="source">Дані: Johns Hopkins CSSE <br> github.com/CSSEGISandData/COVID-19</p>
+           <p class="source">Дані: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Johns Hopkins CSSE</a></p>
        </div>
 
        <p>Ще одна особливість цього графіка – вісь Y має логарифмічний, а не звичний для нас лінійний масштаб. Це означає, що точки на однакових інтервалах вздовж осі Y мають значення, що відрізняються в десятки разів. Тобто, діагональна лінія на такому графіку – це експоненційне зростання. Якщо крива відхиляється вниз до  горизонталі (наприклад, Китай) – це значить, що ситуація покращується; якщо відхиляється вище вгору до вертикалі – це означає, що відбувається неконтрольоване поширення вірусу.</p>
@@ -157,20 +157,23 @@
                 <p>За координатами лікарні</p>
                 <div class="map" id="hex_died"></div>
             </div>
-            <div class="source">Дані: <a href="https://nszu.gov.ua/covid/dashboard">Національна служба здоровʼя України</a></div>
+            <div class="source">Дані: <a href="https://nszu.gov.ua/covid/dashboard" target="_blank">Національна служба здоровʼя України</a></div>
 
-       <p style="grid-column: 1/-1; text-align: left; margin-bottom: 50px;">Інформації про кількість хворих медиків у розрізі лікарень ми наразі не маємо. Її наявність допомогла б скооординувати зусилля громадськості та волонтерів на забезпечення цих лікарень необхідними засобами захисту. Незважаючи на те, що в даних НСЗУ міститься позначка щодо того, чи є хворий медпрацівником, понад 90% таких позначок мають відмітку "на самоізоляції", тобто зазначені з привʼязкою до області, а не до лікарні. Тому на разі ми можемо порівнювати між собою області, а не конкретні лікарні. Графік показує дані по днях і у відсотках до загальної кількості хворих.</p>
+       <p style="grid-column: 1/-1; text-align: left; margin-bottom: 50px;">Інформація про кількість хворих медиків у розрізі лікарень відсутня в публічному доступі. Її наявність допомогла б скооординувати зусилля громадськості та волонтерів на забезпечення необхідними засобами захисту медзакладів, що найбільше цього потребують. Незважаючи на те, що в даних НСЗУ міститься позначка щодо того, чи є хворий медпрацівником, понад 90% таких позначок мають відмітку "на самоізоляції", тобто зазначені з привʼязкою до області, а не до лікарні. Тому на разі ми можемо порівнювати між собою області, а не конкретні лікарні. Графік показує дані по днях і у відсотках до загальної кількості хворих.</p>
        </div>
 
 
 
-       <div id="medical" style="grid-column:1/-1;">
+       <div id="medical-wrapper" style="grid-column:1/-1;">
 
        <h3>Хворі на COVID-19 медики (графік інтерактивний, нижче кнопки-перемикачі) <br>
            <span id="medical_percent" class="med-covid med-covid-active">% від кумулятивної к-ті хворих</span>
            <span id="is_medical" class="med-covid" >к-ть по днях</span></h3>
 
-           <div class="source">Дані: <a href="https://nszu.gov.ua/covid/dashboard">Національна служба здоровʼя України</a></div>
+           <div id="medical"></div>
+
+           <div class="source">Дані: <a href="https://nszu.gov.ua/covid/dashboard" target="_blank">Національна служба здоровʼя України</a></div>
+
        </div>
 
 
