@@ -358,13 +358,16 @@ path.region {
 #medical {
   margin: 50px auto; }
   #medical h3 {
+    text-align: center;
     width: 80%;
     margin: 30px auto; }
 
 .med-covid {
+  border: 1px solid #cf1e25;
   padding: 0 5px;
   cursor: pointer;
-  background-color: lightgrey; }
+  color: white;
+  background-color: rgba(207, 30, 37, 0.5); }
 
 .med-covid-active {
   background-color: #cf1e25;
