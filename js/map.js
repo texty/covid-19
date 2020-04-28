@@ -36,17 +36,16 @@ Promise.all([
 
     var regions = [];
     files[4].forEach(function (d, i) {
-        d.confirmed = +d.confirmed;
-        d.suspected = +d.suspected;
-        d.deaths = +d.deaths;
-        d.region = d.region.replace("м. Київ", "Київ");
-        regions.push(d.region);
-        totalConfirmed += d.confirmed;
-        totalSuspected += d.suspected;
-        totalDeaths += d.deaths;
+        d.new_confirm = +d.new_confirm;
+        d.new_susp = +d.new_susp;
+        d.new_death = +d.new_death;
+        d.priority_hosp_area = d.priority_hosp_area.replace("м. Київ", "Київ");
+        regions.push(d.priority_hosp_area);
+        totalConfirmed += d.new_confirm;
+        totalSuspected += d.new_susp;
+        totalDeaths += d.new_death;
     });
 
-    console.log(totalConfirmed);
     d3.select("#confirmed_amount").html(totalConfirmed);
     d3.select("#suspected_amount").html(totalSuspected);
     d3.select("#deaths_amount").html(totalDeaths);
@@ -55,7 +54,6 @@ Promise.all([
     const create_choropl_map = function(container, column, colorScale, tip) {
         colorScale.domain([0, d3.max(files[4], function(d){ return d[column] }) ]);
 
-        console.log(colorScale.domain);
 
         let map = d3.select(container)
             .append('svg')
@@ -73,7 +71,7 @@ Promise.all([
             .attr("d", path)
             .attr("fill", function (d) {
                 var colorValue = files[4].filter(function (k) {
-                    return k.region === d.properties.region_name;
+                    return k.priority_hosp_area === d.properties.region_name;
                 });
                 if (colorValue.length > 0) {
                     return colorScale(colorValue[0][column])
@@ -83,7 +81,7 @@ Promise.all([
             })
             .attr("data-tippy-content", function(d) {
                 var colorValue = files[4].filter(function (k) {
-                    return k.region === d.properties.region_name;
+                    return k.priority_hosp_area === d.properties.region_name;
                 });
                 if (colorValue.length > 0) {
                     if(d.properties.region_name != "Київ") {
@@ -99,16 +97,16 @@ Promise.all([
             .attr("stroke-width", "1px");
     };
 
-    create_choropl_map("#ch_suspected", "suspected", chr_Red, "К-ть осіб із підозрою: ");
-    create_choropl_map("#ch_confirmed", "confirmed", chr_Red, "К-ть діагностованих випадків: ");
-    create_choropl_map("#ch_died", "deaths", chr_Red, "Померло: ");
+    create_choropl_map("#ch_suspected", "new_susp", chr_Red, "К-ть осіб із підозрою: ");
+    create_choropl_map("#ch_confirmed", "new_confirm", chr_Red, "К-ть діагностованих випадків: ");
+    create_choropl_map("#ch_died", "new_death", chr_Red, "Померло: ");
 
 
     /* hexagonic map */
     const create_hex_map = function(df, container, colorScale, tip, colname) {
         df.forEach(function (d) {
-            d[1] = +d.lat;
-            d[0] = +d.lon;
+            d[1] = +d.legal_entity_lat;
+            d[0] = +d.legal_entity_lng;
             var p = projection(d);
             d[0] = p[0], d[1] = p[1];
             d[colname] = +d[colname];
@@ -159,9 +157,9 @@ Promise.all([
             });
         };
 
-    create_hex_map(files[2], "#hex_suspected", hex_Red, "К-ть осіб із підозрою: ", "suspected");
-    create_hex_map(files[1], "#hex_confirmed", hex_Red, "К-ть діагностованих випадків: ", "confirmed");
-    create_hex_map(files[3], "#hex_died", hex_Red, "Померло: ", "deaths");
+    create_hex_map(files[2], "#hex_suspected", hex_Red, "К-ть осіб із підозрою: ", "new_susp");
+    create_hex_map(files[1], "#hex_confirmed", hex_Red, "К-ть діагностованих випадків: ", "new_confirm");
+    create_hex_map(files[3], "#hex_died", hex_Red, "Померло: ", "new_death");
 
     tippy('.tip', {
         arrow: false,

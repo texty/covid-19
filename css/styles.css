@@ -259,16 +259,19 @@ main {
     line-height: 1.6;
     margin: 10px auto; }
 
+.y.axis > path.domain {
+  display: none; }
+
+.x.axis > path.domain {
+  stroke: lightgrey; }
+
+g.tick line {
+  stroke: lightgrey; }
+
 #chart {
   display: flex;
   flex-wrap: wrap;
   margin: auto; }
-  #chart .y.axis > path.domain {
-    display: none; }
-  #chart .x.axis > path.domain {
-    stroke: lightgrey; }
-  #chart g.tick line {
-    stroke: lightgrey; }
   #chart svg text {
     font-family: 'ProximaNova', sans-serif;
     font-weight: 300; }
@@ -351,5 +354,20 @@ path.region {
   text-align: right;
   font-size: 16px;
   margin-bottom: 50px !important; }
+
+#medical {
+  margin: 50px auto; }
+  #medical h3 {
+    width: 80%;
+    margin: 30px auto; }
+
+.med-covid {
+  padding: 0 5px;
+  cursor: pointer;
+  background-color: lightgrey; }
+
+.med-covid-active {
+  background-color: #cf1e25;
+  color: white; }
 
 /*# sourceMappingURL=styles.css.map */

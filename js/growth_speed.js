@@ -7,7 +7,7 @@ Promise.all([
 
     const parseDate = d3.timeParse("%Y-%m-%d");
     const formatDate = d3.timeFormat("%d/%m");
-    const max_date = d3.max(files[0], function(d){ return parseDate(d.date)});
+    const max_date = d3.max(files[0], function(d){ return parseDate(d.zvit_date)});
     d3.selectAll(".current-date").text(formatDate(max_date));
 
     const sortArray = ["Ukraine", "Turkey", "Poland", "Spain"];
