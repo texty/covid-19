@@ -128,7 +128,7 @@ write.csv(suspected, "suspected_cases.csv", row.names = F)
 write.csv(deaths, "death_cases.csv", row.names = F)
 write.csv(medical, "medical.csv", row.names = F)
 
-
-
+# отут є дані по к-ті лікарів в лікарнях і медперсоналу, а також ШВЛ та інше забезпечення: https://covid19.gov.ua/vidkryti-dani
+# data = read.csv("https://covid19.gov.ua/csv/data.csv")
 
 
