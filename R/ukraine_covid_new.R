@@ -120,6 +120,7 @@ deaths = split_dataset(nszy, "new_death")
 by_region = get_data_by_region(nszy)
 by_date = get_data_by_date(nszy)
 
+
 setwd("/home/yevheniia/git/2020_YEAR/covid-19/data/ukraine/")
 write.csv(by_date, "cases_by_date.csv", row.names = F)
 write.csv(by_region, "cases_by_region.csv", row.names = F)
