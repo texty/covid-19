@@ -113,6 +113,7 @@ is_medical_by_date = function(){
   
   return(total)
 }
+
 medical = is_medical_by_date()
 confirmed = split_dataset(nszy, "new_confirm")
 suspected = split_dataset(nszy, "new_susp")
