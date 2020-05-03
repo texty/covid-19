@@ -3,7 +3,7 @@ library("dplyr")
 library("tidyr")
 library("ggplot2")
 
-
+getwd()
 nszy = read.csv("https://raw.githubusercontent.com/VasiaPiven/covid19_ua/master/dataset.csv", stringsAsFactors = F) %>% 
   mutate(zvit_date = as.Date(zvit_date, format="%Y-%m-%d"))
 
