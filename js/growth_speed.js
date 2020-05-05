@@ -2,14 +2,14 @@
     const margin = {top: 50, left: 60, bottom: 50, right: 50};
     const height = 350;
 
-    const sortArray = ["Ukraine", "Turkey", "Poland", "Spain"];
-    const translatedArray = ["Україна", "Туреччина", "Польща", "Іспанія"];
+    const sortArray = ["Ukraine", "Turkey", "Poland", "Russia"];
+    const translatedArray = ["Україна", "Туреччина", "Польща", "Росія"];
 
     // const sortArray = ["Sweden", "Ukraine"];
     // const translatedArray = ["Швеція", "Україна"];
 
     const colorCountry = d3.scaleOrdinal()
-        .domain(["Ukraine", "Turkey", "Poland", "Spain", "Sweden"])
+        .domain(["Ukraine", "Turkey", "Poland", "Russia", "Sweden"])
         .range(["red", "#333", "blue", "green", "blue"]);
 
     const input = files.filter(function(d) { return sortArray.includes(d["Country/Region"]) });
@@ -58,7 +58,7 @@
 
         var xScale = d3.scaleLinear()
             .domain([1, max_day])
-            .range([0, width]);
+            .range([0, width-20]);
 
         var line = d3.line()
             .x(function (d, i) {
