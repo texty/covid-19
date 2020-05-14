@@ -4,7 +4,7 @@ library("tidyr")
 library("ggplot2")
 
 getwd()
-nszy = read.csv("https://raw.githubusercontent.com/VasiaPiven/covid19_ua/master/dataset.csv", stringsAsFactors = F) %>% 
+nszy = read.csv("https://raw.githubusercontent.com/VasiaPiven/covid19_ua/master/covid19_by_area_type_hosp_dynamics.csv", stringsAsFactors = F) %>% 
   mutate(zvit_date = as.Date(zvit_date, format="%Y-%m-%d"))
 
 setwd('/home/yevheniia/git/2020_YEAR/covid-19/data/source-data/ukraine/')
