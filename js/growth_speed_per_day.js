@@ -110,7 +110,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale)
-            .ticks(d3.timeDay.every(4))
+            .ticks(d3.timeDay.every(11))
             .tickFormat(function (d, i) {
                 return formatDate(d)
             }));
