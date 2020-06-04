@@ -134,4 +134,16 @@ write.csv(medical, "medical.csv", row.names = F)
 # data = read.csv("https://covid19.gov.ua/csv/data.csv")
 
   
+kyiv = nszy %>% 
+  filter(priority_hosp_area == "м. Київ") %>% 
+  select(zvit_date, new_confirm) %>% 
+  group_by(zvit_date) %>% 
+  summarise(kyiv_by_date = sum(new_confirm)) %>% 
+  mutate(kyiv_total = cumsum(kyiv_by_date)) %>% 
+  unique() %>% 
+  left_join(by_date, by="zvit_date") %>% 
+  rename(ukraine_by_date = new_confirm) %>% 
+  rename(ukraine_total = comsum)
 
+setwd("/home/yevheniia/Desktop/")
+write.csv(kyiv, "covid_kyiv_ukraine_by_date.csv", row.names = F)  
