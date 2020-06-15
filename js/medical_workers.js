@@ -71,7 +71,6 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
         .attr("class", "y axis");
 
     var text = multiple.append("text")
-
         .attr("transform", "translate(0," + -20 + ")")
         .attr("x", "90")
         .attr("text-anchor", "middle")
