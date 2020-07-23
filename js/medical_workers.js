@@ -63,8 +63,8 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
         .attr("transform", "translate(0," + chartInnerHeight + ")")
         .attr("class", "x axis")
         .call(d3.axisBottom(xScale)
-            .tickFormat(function(d) { return d3.timeFormat("%d/%m")(d) })
-            .ticks(d3.timeDay.filter(d => d3.timeDay.count(0, d) % 15 === 0))
+            .tickFormat(function(d) { return d3.timeFormat("%m/%y")(d) })
+            .ticks(d3.timeDay.filter(d => d3.timeDay.count(0, d) % 30 === 0))
     )
 
     multiple.append("g")
