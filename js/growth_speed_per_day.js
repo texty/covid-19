@@ -2,7 +2,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
      const margin = {top: 20, left: 60, bottom: 50, right: 50};
      const height = 350;
      const parseDate = d3.timeParse("%m/%d/%Y");
-     const formatDate = d3.timeFormat("%d/%m");
+     const formatDate = d3.timeFormat("%m/%y");
 
      const sortArray = ["Ukraine"];
 
@@ -110,7 +110,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale)
-            .ticks(d3.timeDay.every(11))
+            .ticks(d3.timeDay.every(31))
             .tickFormat(function (d, i) {
                 return formatDate(d)
             }));
