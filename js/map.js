@@ -39,8 +39,8 @@ Promise.all([
         d.new_confirm = +d.new_confirm;
         d.new_susp = +d.new_susp;
         d.new_death = +d.new_death;
-        d.priority_hosp_area = d.priority_hosp_area.replace("м. Київ", "Київ");
-        regions.push(d.priority_hosp_area);
+        d.registration_area = d.registration_area.replace("м. Київ", "Київ");
+        regions.push(d.registration_area);
         totalConfirmed += d.new_confirm;
         totalSuspected += d.new_susp;
         totalDeaths += d.new_death;
@@ -71,7 +71,7 @@ Promise.all([
             .attr("d", path)
             .attr("fill", function (d) {
                 var colorValue = files[4].filter(function (k) {
-                    return k.priority_hosp_area === d.properties.region_name;
+                    return k.registration_area === d.properties.region_name;
                 });
                 if (colorValue.length > 0) {
                     return colorScale(colorValue[0][column])
@@ -81,7 +81,7 @@ Promise.all([
             })
             .attr("data-tippy-content", function(d) {
                 var colorValue = files[4].filter(function (k) {
-                    return k.priority_hosp_area === d.properties.region_name;
+                    return k.registration_area === d.properties.region_name;
                 });
                 if (colorValue.length > 0) {
                     if(d.properties.region_name != "Київ") {

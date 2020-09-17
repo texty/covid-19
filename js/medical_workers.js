@@ -26,7 +26,7 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
     var chartInnerHeight = 150;
 
     var nested = d3.nest()
-        .key(function(d){ return d.priority_hosp_area; })
+        .key(function(d){ return d.registration_area; })
         .entries(medical);
 
 

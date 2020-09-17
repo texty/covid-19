@@ -7,9 +7,14 @@ getwd()
 nszy = read.csv("https://raw.githubusercontent.com/VasiaPiven/covid19_ua/master/covid19_by_area_type_hosp_dynamics.csv", stringsAsFactors = F) %>% 
   mutate(zvit_date = as.Date(zvit_date, format="%Y-%m-%d"))
 
+# нові дані від 17.09.2020
+new_nszy = read.csv("https://raw.githubusercontent.com/VasiaPiven/covid19_ua/master/covid19_by_settlement_actual.csv", stringsAsFactors = F) %>% 
+  mutate(zvit_date = as.Date(zvit_date, format="%Y-%m-%d")) %>% 
+  rename()
+
 setwd('/home/yevheniia/git/2020_YEAR/covid-19/data/source-data/ukraine/')
 selfizo_coords = read.csv("selfizo.csv", stringsAsFactors = F) %>% 
-  rename(priority_hosp_area = region) %>% 
+  rename(registration_area = region) %>% 
   rename(legal_entity_lng = lon) %>% 
   rename(legal_entity_lat = lat)
 
@@ -17,15 +22,15 @@ split_dataset = function(df, var){
   selfizolation = df %>%
     filter(edrpou_hosp == "Самоізоляція") %>%
     select(-legal_entity_lat, -legal_entity_lng) %>% 
-    left_join(selfizo_coords, by = "priority_hosp_area") %>%
+    left_join(selfizo_coords, by = "registration_area") %>%
     filter(!!(as.name(var)) > 0) %>% 
-    select(edrpou_hosp, !!var, priority_hosp_area, zvit_date, legal_entity_lat, legal_entity_lng) %>% 
+    select(edrpou_hosp, !!var, registration_area, zvit_date, legal_entity_lat, legal_entity_lng) %>% 
     uncount(!!(as.name(var))) %>% 
     mutate(!!(as.name(var)) := 1) %>%
     mutate(legal_entity_name_hosp = "") %>%
     mutate(legal_entity_lat = as.numeric(legal_entity_lat)) %>% 
     mutate(legal_entity_lng = as.numeric(legal_entity_lng)) %>% 
-    select(zvit_date, edrpou_hosp, legal_entity_name_hosp, priority_hosp_area, legal_entity_lat, legal_entity_lng, !!var)
+    select(zvit_date, edrpou_hosp, legal_entity_name_hosp, registration_area, legal_entity_lat, legal_entity_lng, !!var)
   
   data = df %>% 
     filter(edrpou_hosp != "Самоізоляція") %>% 
@@ -34,12 +39,34 @@ split_dataset = function(df, var){
     mutate(!!(as.name(var)) := 1) %>% 
     mutate(legal_entity_lat = as.numeric(legal_entity_lat)) %>% 
     mutate(legal_entity_lng = as.numeric(legal_entity_lng)) %>% 
-    select(zvit_date, edrpou_hosp, legal_entity_name_hosp, priority_hosp_area, legal_entity_lat, legal_entity_lng, !!var)
+    select(zvit_date, edrpou_hosp, legal_entity_name_hosp, registration_area, legal_entity_lat, legal_entity_lng, !!var)
   
   data = data %>%  bind_rows(selfizolation) 
   
   return(data)
 }
+
+
+# нова функція підрахунку за нас. пунктами після оновлення структури даних 17.09.2020
+split_dataset_new = function(df, var){
+ data = df %>%
+    filter(!!(as.name(var)) > 0) %>% 
+    rename(legal_entity_lng = registration_settlement_lng) %>% 
+    rename(legal_entity_lat = registration_settlement_lat) %>% 
+    select(zvit_date, !!var, registration_area, registration_region, registration_settlement, legal_entity_lat, legal_entity_lng) %>% 
+    uncount(!!(as.name(var))) %>% 
+    mutate(!!(as.name(var)) := 1)
+    
+  return(data)
+}
+
+data = new_nszy %>%
+  filter(total_confirm > 0) %>% 
+  rename(legal_entity_lng = registration_settlement_lng) %>% 
+  rename(legal_entity_lat = registration_settlement_lat) %>% 
+  select(zvit_date, total_confirm, registration_area, registration_region, registration_settlement, legal_entity_lat, legal_entity_lng) %>% 
+  uncount(total_confirm) %>% 
+  mutate(total_confirm = 1)
 
 # кількість по регіонам
 
@@ -47,18 +74,18 @@ get_data_by_region = function(df){
   is_medical = nszy %>% 
     filter(new_confirm > 0) %>% 
     filter(is_medical_worker == "Так") %>% 
-    group_by(priority_hosp_area) %>% 
+    group_by(registration_area) %>% 
     summarize(is_medical = sum(new_confirm))
   
   data = df %>%
-    select(priority_hosp_area, new_susp, new_confirm, new_death) %>% 
-    group_by(priority_hosp_area) %>%
+    select(registration_area, new_susp, new_confirm, new_death) %>% 
+    group_by(registration_area) %>%
     mutate(new_susp = sum(new_susp)) %>%
     mutate(new_confirm = sum(new_confirm)) %>%
     mutate(new_death = sum(new_death)) %>%
     ungroup() %>% 
     unique() %>% 
-    left_join(is_medical, by = "priority_hosp_area") %>% 
+    left_join(is_medical, by = "registration_area") %>% 
     mutate(med_percent = is_medical/(new_confirm/100))
   
   data[is.na(data)] <- 0
@@ -77,12 +104,13 @@ get_data_by_date = function(df){
   return(data)
 }
 
+# медпрацівники
 is_medical_by_date = function(){
   is_medical = nszy %>% 
     filter(new_confirm > 0) %>% 
     filter(is_medical_worker == "Так") %>% 
-    select(zvit_date, new_confirm, is_medical_worker, priority_hosp_area) %>% 
-    group_by(zvit_date, priority_hosp_area) %>% 
+    select(zvit_date, new_confirm, is_medical_worker, registration_area) %>% 
+    group_by(zvit_date, registration_area) %>% 
     mutate(is_medical = sum(new_confirm)) %>%
     ungroup() %>% 
     select(-new_confirm) %>% 
@@ -92,14 +120,14 @@ is_medical_by_date = function(){
   
   total = nszy %>% 
     filter(new_confirm > 0) %>% 
-    select(zvit_date, new_confirm, priority_hosp_area) %>% 
-    group_by(zvit_date, priority_hosp_area) %>% 
+    select(zvit_date, new_confirm, registration_area) %>% 
+    group_by(zvit_date, registration_area) %>% 
     mutate(new_confirm = sum(new_confirm)) %>%
     ungroup() %>% 
     unique() %>% 
-    left_join(is_medical, by=c("zvit_date", "priority_hosp_area")) %>% 
+    left_join(is_medical, by=c("zvit_date", "registration_area")) %>% 
     mutate(is_medical = ifelse(is.na(is_medical), 0, is_medical)) %>% 
-    group_by(priority_hosp_area) %>% 
+    group_by(registration_area) %>% 
     arrange(zvit_date) %>% 
     mutate(confirm_cumsum = cumsum(new_confirm)) %>% 
     mutate(medical_comsum = cumsum(is_medical)) %>% 
@@ -108,16 +136,20 @@ is_medical_by_date = function(){
     mutate(confirm_total = sum(new_confirm)) %>% 
     mutate(percent_total = medical_total/(confirm_total/100)) %>% 
     # select(zvit_date, priority_hosp_area, new_confirm, is_medical, confirm_cumsum, medical_comsum, medical_percent)
-    select(zvit_date, priority_hosp_area, is_medical, medical_comsum, medical_percent, medical_total, percent_total)
+    select(zvit_date, registration_area, is_medical, medical_comsum, medical_percent, medical_total, percent_total)
   
   
   return(total)
 }
 
 medical = is_medical_by_date()
-confirmed = split_dataset(nszy, "new_confirm")
-suspected = split_dataset(nszy, "new_susp")
-deaths = split_dataset(nszy, "new_death")
+# confirmed = split_dataset(nszy, "new_confirm")
+# suspected = split_dataset(nszy, "new_susp")
+# deaths = split_dataset(nszy, "new_death")
+confirmed = split_dataset_new(new_nszy, "total_confirm")
+suspected = split_dataset_new(new_nszy, "total_susp")
+deaths = split_dataset_new(new_nszy, "total_death")
+
 by_region = get_data_by_region(nszy)
 by_date = get_data_by_date(nszy)
 
@@ -135,7 +167,7 @@ write.csv(medical, "medical.csv", row.names = F)
 
   
 kyiv = nszy %>% 
-  filter(priority_hosp_area == "м. Київ") %>% 
+  filter(registration_area == "м. Київ") %>% 
   select(zvit_date, new_confirm) %>% 
   group_by(zvit_date) %>% 
   summarise(kyiv_by_date = sum(new_confirm)) %>% 
