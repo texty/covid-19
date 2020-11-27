@@ -112,7 +112,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
         .call(d3.axisBottom(xScale)
             .ticks(d3.timeDay.every(31))
             .tickFormat(function (d, i) {
-                return formatDate(d)
+                return d3.timeFormat("%d/%m")(d)
             }));
 
     //y axis
