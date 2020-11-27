@@ -112,7 +112,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
         .call(d3.axisBottom(xScale)
             .ticks(d3.timeDay.every(31))
             .tickFormat(function (d, i) {
-                return d3.timeFormat("%d/%m")(d)
+                return formatDate(d)
             }));
 
     //y axis
@@ -156,7 +156,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
                  .attr("cy", yScale(t.log))
                  .attr("r", 5)
                  .attr("data-tippy-content", function () {
-                     return "станом на " + formatDate(t.date) + ": коефіцієнт <br> подвоєння складає " + t.log + " дн."
+                     return "станом на " + d3.timeFormat("%d/%m")(t.date) + ": коефіцієнт <br> подвоєння складає " + t.log + " дн."
 
                  })
                  .style('opacity', "0.8")
