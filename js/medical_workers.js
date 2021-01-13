@@ -86,7 +86,7 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
 
 
    drawMedical("medical_percent", "percent_total", "%");
-    d3.select(".medical").selectAll(".spinner").remove();
+    d3.select("#medical").select(".spinner").remove();
 
 
    d3.select("#medical_percent").on("click", function(){
