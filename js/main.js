@@ -1,6 +1,6 @@
 const target_countries = ["Ukraine", "US", "Spain", "Italy", "Germany", "United Kingdom", "Brazil", "Netherlands", "Russia", "Belarus", "Austria", "Bulgaria", "Canada", "France", "Iran", "India", "Turkey", "Poland", "Sweden", "China"];
-
 const translated_countries = ["Україна", "США", "Іспанія", "Італія", "Німеччина", "Великобританія", "Бразилія", "Нідерланди", "Росія", "Білорусь", "Австрія", "Болгарія", "Канада",  "Франція",  "Іран", "Індія", "Туреччина", "Польща",  "Швеція", "Китай"];
+const oneChartWidth = 300;
 
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"),
@@ -47,11 +47,11 @@ Promise.all([
     const set_size = function(){
         //console.log("stop do it!");
         width = d3.select("#chart_wrapper").node().getBoundingClientRect().width;
-        columns = Math.floor(width/250);
+        columns = Math.floor(width/oneChartWidth);
         if(width > 800) {
-            d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3, #medical").style("width", columns * 250 + "px");
+            d3.selectAll("#chart, #chart_wrapper p, #chart_wrapper h3, #medical").style("width", columns * oneChartWidth + "px");
         } else {
-            d3.selectAll("#chart, #medical").style("width", columns * 250 + "px");
+            d3.selectAll("#chart, #medical").style("width", columns * oneChartWidth + "px");
             d3.selectAll("#chart_wrapper p, #chart_wrapper h3").style("width", "100%");
         }
     };
@@ -79,18 +79,18 @@ Promise.all([
     //задаємо порядок країн
     nested.sort( function(a, b) { return  target_countries.indexOf(a.key) - target_countries.indexOf(b.key)});
 
-    const height = nested.length / columns * 250;
+    const height = nested.length / columns * oneChartWidth;
     const chart_container = d3.select("#chart");
     const multiple = chart_container.selectAll("svg")
             .data(nested)
             .enter()
             .append("svg")
-            .attr("width", 250)
-            .attr("height", 250)
+            .attr("width", oneChartWidth)
+            .attr("height", oneChartWidth)
             .attr("class", "multiple")
             .append("g")
             .attr("data", function(d) { return d.key })
-            .attr("transform", "translate(" + 60 + "," + 50 + ")");
+            .attr("transform", "translate(" + 70 + "," + 50 + ")");
 
     multiple.append("g")
         .attr("class", "x axis")
@@ -105,7 +105,7 @@ Promise.all([
         .attr("class", "y axis")
         .call(d3.axisLeft(yScale)
             .ticks(5)
-            .tickValues([0, 10, 100, 1000, 10000, 100000, max_cases])
+            .tickValues([0, 1000, 10000, 100000, 1000000, max_cases])
             .tickSize(-150)
         );
 

@@ -92,7 +92,7 @@
             .call(d3.axisLeft(yScale)
                 .tickSize(-width)
                 // .tickValues([10, 100, 1000, 5000, 10000]));
-                .tickValues([10, 100, 1000, 10000, 25000, 50000, max_cases]));
+                .tickValues([10, 1000, 100000, max_cases]));
 
 
         /* chart container*/

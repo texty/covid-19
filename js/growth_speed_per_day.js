@@ -62,7 +62,7 @@ d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_co
 
     const max_value = d3.max(input, function (d) { return d.log  });
 
-    var last_dubble_koef = input.filter(function(d){ return d.date.getTime() ===  max_date.getTime()})[0].log;
+    var last_dubble_koef = input.filter(function(d){ return d.date.getTime() ===  max_date.getTime()})[0];
     d3.select("#last_dubble_koef").html(last_dubble_koef);
 
     var nested = d3.nest()
