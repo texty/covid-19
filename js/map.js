@@ -51,6 +51,7 @@ Promise.all([
         totalDeaths += d.new_death;
     });
 
+
     d3.select("#confirmed_amount").html(totalConfirmed);
     d3.select("#suspected_amount").html(totalSuspected);
     d3.select("#deaths_amount").html(totalDeaths);
@@ -165,6 +166,9 @@ Promise.all([
     //create_hex_map(files[2], "#hex_suspected", hex_Red, "К-ть осіб із підозрою: ", "new_susp");
     create_hex_map(files[1], "#hex_confirmed", hex_Red, "К-ть діагностованих випадків: ", "new_confirm");
     create_hex_map(files[3], "#hex_died", hex_Red, "Померло: ", "new_death");
+
+    d3.selectAll(".spinner").remove();
+
 
     tippy('.tip', {
         arrow: false,

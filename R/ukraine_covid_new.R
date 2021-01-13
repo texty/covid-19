@@ -153,11 +153,18 @@ deaths = split_dataset_new(new_nszy, "total_death")
 by_region = get_data_by_region(nszy)
 by_date = get_data_by_date(nszy)
 
+confirmed_part1 = confirmed %>% 
+  filter(row_number() < nrow(confirmed)/2)
+
+confirmed_part2 = confirmed %>% 
+  filter(row_number() > nrow(confirmed)/2)
 
 setwd("/home/yevheniia/git/2020_YEAR/covid-19/data/ukraine/")
 write.csv(by_date, "cases_by_date.csv", row.names = F)
 write.csv(by_region, "cases_by_region.csv", row.names = F)
-write.csv(confirmed, "confirmed_cases.csv", row.names = F)
+write.csv(confirmed_part1, "confirmed_cases_1.csv", row.names = F)
+write.csv(confirmed_part2, "confirmed_cases_2.csv", row.names = F)
+
 write.csv(suspected, "suspected_cases.csv", row.names = F)
 write.csv(deaths, "death_cases.csv", row.names = F)
 write.csv(medical, "medical.csv", row.names = F)

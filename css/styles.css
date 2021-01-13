@@ -302,8 +302,15 @@ path.region {
     text-align: center; }
 
 .map {
+  min-height: 200px;
   height: 100%;
   width: 100%; }
+
+img.spinner {
+  display: block;
+  align-self: center;
+  width: 100px;
+  margin: 100px auto; }
 
 .numeral {
   color: #cf1e25;
