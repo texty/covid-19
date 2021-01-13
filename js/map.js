@@ -23,12 +23,17 @@ var hex_Red = d3.scaleSqrt()
 
 
 Promise.all([
-    d3.json("data/ukr_adm1_lite.json"),
-    d3.csv("data/ukraine/confirmed_cases.csv"),
-    d3.csv("data/ukraine/suspected_cases.csv"),
-    d3.csv("data/ukraine/death_cases.csv"),
-    d3.csv("data/ukraine/cases_by_region.csv")
+    d3.json("data/ukr_adm1_lite.json"), //files[0]
+    d3.csv("data/ukraine/confirmed_cases_1.csv"), //files[1]
+    d3.csv("data/ukraine/confirmed_cases_2.csv"), //files[2]
+    // d3.csv("data/ukraine/suspected_cases.csv"),
+    d3.csv("data/ukraine/death_cases.csv"),  //files[3]
+    d3.csv("data/ukraine/cases_by_region.csv") //files[4]
 ]).then(function(files) {
+
+    files[2].forEach(function(d){
+        files[1].push(d)
+    });
 
     var totalConfirmed = 0;
     var totalSuspected = 0;
@@ -157,7 +162,7 @@ Promise.all([
             });
         };
 
-    create_hex_map(files[2], "#hex_suspected", hex_Red, "К-ть осіб із підозрою: ", "new_susp");
+    //create_hex_map(files[2], "#hex_suspected", hex_Red, "К-ть осіб із підозрою: ", "new_susp");
     create_hex_map(files[1], "#hex_confirmed", hex_Red, "К-ть діагностованих випадків: ", "new_confirm");
     create_hex_map(files[3], "#hex_died", hex_Red, "Померло: ", "new_death");
 
