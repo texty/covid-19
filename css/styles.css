@@ -290,9 +290,8 @@ path.region {
 
 #maps {
   width: 80%;
-  margin: 50px auto 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr; }
+  max-width: 800px;
+  margin: 50px auto 0 auto; }
   @media (max-width: 812px) {
     #maps {
       display: block; } }

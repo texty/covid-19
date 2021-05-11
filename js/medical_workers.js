@@ -18,7 +18,7 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
         d.medical_total = +d.medical_total;
         d.percent_total = Math.floor(+d.percent_total);
     });
-
+    
     var chartOuterWidth = 250;
     var chartInnerWidth = 200;
 
@@ -145,3 +145,23 @@ d3.csv("data/ukraine/medical.csv").then(function(medical) {
   }
 
 });
+
+var simpleMovingAVG = function(dataObjArray, column, timePeriods){
+    var sum = 0;
+    var result = false;
+
+    try{
+        for(var i=timePeriods-1;i>-1;i--){
+            sum += dataObjArray[i][column];
+        }
+
+        result = (parseFloat(sum) / parseFloat(timePeriods));
+        //console.log('SMA Result : ' + result);
+    } catch(err) {
+        result = false;
+        console.log("SMA Error : " + err);
+    }
+
+    return result;
+
+};

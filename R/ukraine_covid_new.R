@@ -2,6 +2,8 @@
 library("dplyr")
 library("tidyr")
 library("ggplot2")
+library(zoo)
+
 
 getwd()
 nszy = read.csv("https://raw.githubusercontent.com/VasiaPiven/covid19_ua/master/covid19_by_area_type_hosp_dynamics.csv", stringsAsFactors = F) %>% 
@@ -115,7 +117,7 @@ is_medical_by_date = function(){
     ungroup() %>% 
     select(-new_confirm) %>% 
     unique() %>% 
-    select(-is_medical_worker)
+    select(-is_medical_worker) 
 
   
   total = nszy %>% 

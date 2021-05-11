@@ -140,9 +140,10 @@ path.region {
 
 #maps {
   width: 80%;
+  max-width: 800px;
   margin: 50px auto 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  //display: grid;
+  //grid-template-columns: 1fr 1fr;
   @media(max-width: 812px){
     display: block;
     //width: 100%;
